@@ -1,0 +1,13 @@
+service: openwhisk
+provider:
+  name: openwhisk
+  ignore_certs: true
+
+functions:
+  openwhisk-simple:
+    handler: handler.simple
+    events:
+      - http: GET /openwhisk-simple
+
+plugins:
+  - serverless-openwhisk
