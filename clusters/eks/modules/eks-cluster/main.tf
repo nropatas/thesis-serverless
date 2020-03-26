@@ -23,6 +23,7 @@ module "eks" {
 
   worker_groups = [
     {
+      # Updates to these asg capacities will be ignored. Update them on AWS console manually.
       asg_desired_capacity  = var.worker_node_count
       ask_min_capacity      = var.worker_node_count
       ask_max_capacity      = var.worker_node_count
