@@ -4,10 +4,10 @@ variable "region" {
 }
 
 variable "worker_node_count" {
-  default = 2
+  default = 1
 }
 
 variable "worker_instance_type" {
   type = string
-  default = "t2.small" # m4.large
+  default = "m4.large"
 }
