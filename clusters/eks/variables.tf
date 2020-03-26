@@ -3,23 +3,11 @@ variable "region" {
   default = "eu-central-1"
 }
 
-variable "cluster_names" {
-  type = map
-  default = {
-    "knative"   = "knative"
-    "openfaas"  = "openfaas"
-    "openwhisk" = "openwhisk"
-    "kubeless"  = "kubeless"
-    "fission"   = "fission"
-  }
+variable "worker_node_count" {
+  default = 2
 }
 
 variable "worker_instance_type" {
   type = string
   default = "t2.small" # m4.large
 }
-
-# variable "client_ip_address" {
-#   type = list(string)
-#   default = ["0.0.0.0/0"]
-# }
