@@ -30,5 +30,6 @@ module "eks" {
     }
   ]
 
+  # Remove this line if wget works on your machine
   wait_for_cluster_cmd = "until curl -k -s $ENDPOINT/healthz >/dev/null; do sleep 4; done"
 }
