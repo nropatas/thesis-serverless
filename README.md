@@ -6,7 +6,22 @@
 
 _Skip if using the local Kubernetes cluster._
 
-To be added
+If you don't want to create clusters for all the included platforms, comment out the unwanted modules in `clusters/eks/main.tf`.
+
+```sh
+cd clusters/eks
+
+terraform apply
+
+# To remove a specific cluster (replace <cluster_name> with the name, e.g., knative)
+terraform destroy -target=module.<cluster_name>
+
+# Remove everything on AWS created by the Terraform config
+terraform destroy
+
+# Go back to the root project directory
+cd ../..
+```
 
 ### Open-Source Serverless Platforms
 

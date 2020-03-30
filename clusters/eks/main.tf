@@ -22,12 +22,18 @@ module "vpc" {
   public_subnet_tags = {
     "kubernetes.io/cluster/knative"               = "shared"
     "kubernetes.io/cluster/openfaas"              = "shared"
+    "kubernetes.io/cluster/openwhisk"             = "shared"
+    "kubernetes.io/cluster/kubeless"              = "shared"
+    "kubernetes.io/cluster/fission"               = "shared"
     "kubernetes.io/role/elb"                      = "1"
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/knative"               = "shared"
     "kubernetes.io/cluster/openfaas"              = "shared"
+    "kubernetes.io/cluster/openwhisk"             = "shared"
+    "kubernetes.io/cluster/kubeless"              = "shared"
+    "kubernetes.io/cluster/fission"               = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }
@@ -44,6 +50,33 @@ module "knative" {
 module "openfaas" {
   source               = "./modules/eks-cluster"
   cluster_name         = "openfaas"
+  vpc_id               = module.vpc.vpc_id
+  subnets              = module.vpc.private_subnets
+  worker_node_count    = var.worker_node_count
+  worker_instance_type = var.worker_instance_type
+}
+
+module "openwhisk" {
+  source               = "./modules/eks-cluster"
+  cluster_name         = "openwhisk"
+  vpc_id               = module.vpc.vpc_id
+  subnets              = module.vpc.private_subnets
+  worker_node_count    = var.worker_node_count
+  worker_instance_type = var.worker_instance_type
+}
+
+module "kubeless" {
+  source               = "./modules/eks-cluster"
+  cluster_name         = "kubeless"
+  vpc_id               = module.vpc.vpc_id
+  subnets              = module.vpc.private_subnets
+  worker_node_count    = var.worker_node_count
+  worker_instance_type = var.worker_instance_type
+}
+
+module "fission" {
+  source               = "./modules/eks-cluster"
+  cluster_name         = "fission"
   vpc_id               = module.vpc.vpc_id
   subnets              = module.vpc.private_subnets
   worker_node_count    = var.worker_node_count
