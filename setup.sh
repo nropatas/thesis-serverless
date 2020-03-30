@@ -72,7 +72,7 @@ openwhisk() {
 
     git clone https://github.com/apache/openwhisk-deploy-kube.git
     cd openwhisk-deploy-kube
-    helm install owdev ./helm/openwhisk -n openwhisk -f ../clusters/openwhisk/openwhisk.yaml
+    helm install owdev ./helm/openwhisk -n openwhisk -f ../clusters/openwhisk/$config_file
 
     # Clean up
     cd ..
