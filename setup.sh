@@ -2,11 +2,12 @@
 
 remote="false"
 delete="false"
+proj_dir=$(pwd)
 
 knative() {
   if [ $remote = "true" ]
   then
-    export KUBECONFIG="clusters/eks/kubeconfig_knative"
+    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_knative"
   fi
 
   if [ $delete = "false" ]
@@ -34,7 +35,7 @@ openfaas() {
 
   if [ $remote = "true" ]
   then
-    export KUBECONFIG="clusters/eks/kubeconfig_openfaas"
+    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_openfaas"
     config_file="openfaas-rbac.yaml"
   fi
 
@@ -50,6 +51,37 @@ openfaas() {
     kubectl delete -f clusters/openfaas/$config_file
     kubectl delete -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
     helm uninstall metrics-server -n kube-system
+  fi
+}
+
+openwhisk() {
+  config_file="openwhisk.yaml"
+
+  if [ $remote = "true" ]
+  then
+    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_openwhisk"
+    config_file="openwhisk-eks.yaml"
+  fi
+
+  if [ $delete = "false" ]
+  then
+    echo "Setting up OpenWhisk..."
+
+    kubectl label nodes --all openwhisk-role=invoker
+    kubectl create namespace openwhisk
+
+    git clone https://github.com/apache/openwhisk-deploy-kube.git
+    cd openwhisk-deploy-kube
+    helm install owdev ./helm/openwhisk -n openwhisk -f ../clusters/openwhisk/openwhisk.yaml
+
+    # Clean up
+    cd ..
+    rm -rf openwhisk-deploy-kube
+  else
+    echo "Deleting OpenWhisk..."
+    helm uninstall owdev -n openwhisk
+    kubectl delete ns openwhisk
+    kubectl label nodes --all openwhisk-role-
   fi
 }
 
@@ -74,5 +106,6 @@ export KUBECONFIG="$HOME/.kube/config"
 case $1 in
   "knative") knative ;;
   "openfaas") openfaas ;;
+  "openwhisk") openwhisk ;;
   *) echo "Invalid platform" ;;
 esac

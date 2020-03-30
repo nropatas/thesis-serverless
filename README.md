@@ -2,6 +2,10 @@
 
 ## Setup
 
+### Prerequisites
+
+To be added
+
 ### EKS Clusters
 
 _Skip if using the local Kubernetes cluster._
@@ -13,6 +17,7 @@ If you don't want to create clusters for all the included platforms, comment out
 ```sh
 cd clusters/eks
 
+terraform init
 terraform apply
 
 # To remove a specific cluster (replace <cluster_name> with the name, e.g., knative)
@@ -60,7 +65,20 @@ echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
 
 **OpenWhisk**
 
-To be added
+```sh
+# Set up OpenWhisk locally
+./setup.sh openwhisk
+
+# Wait until everything is ready and configure wsk (CLI)
+wsk property set --apihost localhost:31001 # For local K8S cluster
+wsk property set --apihost "http://$(kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')" # For EKS cluster
+wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
+
+# Function deployment to be added
+
+# Delete OpenWhisk from the cluster
+./setup.sh openwhisk -d
+```
 
 **Kubeless**
 
