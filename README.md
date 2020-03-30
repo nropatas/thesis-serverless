@@ -6,6 +6,8 @@
 
 _Skip if using the local Kubernetes cluster._
 
+Before running the following commands, set up your AWS credentials by running `aws configure`.
+
 If you don't want to create clusters for all the included platforms, comment out the unwanted modules in `clusters/eks/main.tf`.
 
 ```sh
@@ -55,3 +57,15 @@ echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
 # Delete OpenFaaS from the cluster
 ./setup.sh openfaas -d
 ```
+
+**OpenWhisk**
+
+To be added
+
+**Kubeless**
+
+To be added
+
+**Fission**
+
+To be added
