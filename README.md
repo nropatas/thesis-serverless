@@ -26,31 +26,31 @@ terraform destroy -target=module.<cluster_name>
 # Remove everything on AWS created by the Terraform config
 terraform destroy
 
-# Go back to the root project directory
+# Go back to the project root directory
 cd ../..
 ```
 
 ### Open-Source Serverless Platforms
 
-Note: Add flag `-r` when running `setup.sh` for deploying to EKS. Terraform has to be run first.
+Note: Add flag `-r` when running `setup.sh` for deploying to EKS or removing the stacks from EKS. Terraform has to be run first.
 
 **Knative**
 
 ```sh
 # Set up Knative locally
-./setup.sh knative
+source ./setup.sh knative
 
 # Function deployment to be added
 
 # Delete Knative from the cluster
-./setup.sh knative -d
+source ./setup.sh knative -d
 ```
 
 **OpenFaaS**
 
 ```sh
 # Set up OpenFaaS locally
-./setup.sh openfaas
+source ./setup.sh openfaas
 
 # Log into OpenFaaS server when it's ready before deploying functions
 OPENFAAS_URL="http://$(kubectl get svc -n openfaas gateway-external -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):8080"
@@ -60,14 +60,29 @@ echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
 # Function deployment to be added
 
 # Delete OpenFaaS from the cluster
-./setup.sh openfaas -d
+source ./setup.sh openfaas -d
 ```
 
 **OpenWhisk**
 
 ```sh
+# Generate a self-signed server certificate (only for EKS)
+openssl genrsa -out clusters/openwhisk/openwhisk-server-key.pem 2048
+openssl req -new \
+  -key clusters/openwhisk/openwhisk-server-key.pem \
+  -nodes \
+  -out clusters/openwhisk/openwhisk-server-request.csr
+openssl x509 -req \
+  -in clusters/openwhisk/openwhisk-server-request.csr \
+  -signkey clusters/openwhisk/openwhisk-server-key.pem \
+  -out clusters/openwhisk/openwhisk-server-cert.pem \
+  -days 365
+
+# Run this command, copy ARN, and paste it in `clusters/openwhisk/openwhisk-eks.yaml`
+aws iam upload-server-certificate --server-certificate-name ow-self-signed --certificate-body file://clusters/openwhisk/openwhisk-server-cert.pem --private-key file://clusters/openwhisk/openwhisk-server-key.pem
+
 # Set up OpenWhisk locally
-./setup.sh openwhisk
+source ./setup.sh openwhisk
 
 # Wait until everything is ready and configure wsk (CLI)
 wsk property set --apihost localhost:31001 # For local K8S cluster
@@ -78,7 +93,7 @@ echo "APIGW_ACCESS_TOKEN=token" >> ~/.wskprops
 # Function deployment to be added
 
 # Delete OpenWhisk from the cluster
-./setup.sh openwhisk -d
+source ./setup.sh openwhisk -d
 ```
 
 **Kubeless**
