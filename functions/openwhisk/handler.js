@@ -1,3 +1,3 @@
 exports.simple = (params) => {
-  return { payload: 'Hello' };
+  return { body: 'Hello' };
 }

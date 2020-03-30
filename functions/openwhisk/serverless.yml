@@ -6,8 +6,8 @@ provider:
 functions:
   openwhisk-simple:
     handler: handler.simple
-    events:
-      - http: GET /openwhisk-simple
+    annotations:
+      web-export: true
 
 plugins:
   - serverless-openwhisk
