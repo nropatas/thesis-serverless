@@ -85,8 +85,10 @@ aws iam upload-server-certificate --server-certificate-name ow-self-signed --cer
 source ./setup.sh openwhisk
 
 # Wait until everything is ready and configure wsk (CLI)
-wsk property set --apihost localhost:31001 # For local K8S cluster
-wsk property set --apihost "$(kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):443" # For EKS cluster
+# For local K8S cluster
+wsk property set --apihost localhost:31001
+# For EKS cluster
+wsk property set --apihost "$(kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):443"
 wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
 echo "APIGW_ACCESS_TOKEN=token" >> ~/.wskprops
 
