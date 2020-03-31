@@ -4,6 +4,14 @@
 
 ### Prerequisites
 
+* **Helm**
+
+    After installing Helm CLI, run this command.
+
+    ```sh
+    helm repo add stable https://kubernetes-charts.storage.googleapis.com
+    ```
+
 To be added
 
 ### EKS Clusters
@@ -100,7 +108,15 @@ source ./setup.sh openwhisk -d
 
 **Kubeless**
 
-To be added
+```sh
+# Set up Kubeless locally
+source ./setup.sh kubeless
+
+# Function deployment to be added
+
+# Delete Kubeless from the cluster
+source ./setup.sh kubeless -d
+```
 
 **Fission**
 

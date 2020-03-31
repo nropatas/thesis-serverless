@@ -85,6 +85,31 @@ openwhisk() {
   fi
 }
 
+kubeless() {
+  if [ $remote = "true" ]
+  then
+    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_openwhisk"
+  fi
+
+  if [ $delete = "false" ]
+  then
+    echo "Setting up Kubeless..."
+
+    helm install metrics-server --namespace kube-system stable/metrics-server \
+      --set args="{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP\,ExternalIP\,Hostname}"
+
+    kubectl create ns kubeless
+    kubectl create -f https://github.com/kubeless/kubeless/releases/download/v1.0.6/kubeless-v1.0.6.yaml
+    helm install nginx-ingress stable/nginx-ingress --set rbac.create=true
+  else
+    echo "Deleting Kubeless..."
+    helm uninstall nginx-ingress
+    kubectl delete -f https://github.com/kubeless/kubeless/releases/download/v1.0.6/kubeless-v1.0.6.yaml
+    kubectl delete ns kubeless
+    helm uninstall metrics-server -n kube-system
+  fi
+}
+
 ########################################################################################
 
 if [ -z $1 ]
@@ -107,5 +132,6 @@ case $1 in
   "knative") knative ;;
   "openfaas") openfaas ;;
   "openwhisk") openwhisk ;;
+  "kubeless") kubeless ;;
   *) echo "Invalid platform" ;;
 esac
