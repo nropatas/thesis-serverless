@@ -42,23 +42,35 @@ cd ../..
 
 Note: Add flag `-r` when running `setup.sh` for deploying to EKS or removing the stacks from EKS. Terraform has to be run first.
 
+Run this if you are working on your local cluster.
+
+```sh
+unset KUBECONFIG
+```
+
 **Knative**
 
 ```sh
+# Run this if you are using EKS
+export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_knative"
+
 # Set up Knative locally
-source ./setup.sh knative
+./setup.sh knative
 
 # Function deployment to be added
 
 # Delete Knative from the cluster
-source ./setup.sh knative -d
+./setup.sh knative -d
 ```
 
 **OpenFaaS**
 
 ```sh
+# Run this if you are using EKS
+export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_openfaas"
+
 # Set up OpenFaaS locally
-source ./setup.sh openfaas
+./setup.sh openfaas
 
 # Log into OpenFaaS server when it's ready before deploying functions
 OPENFAAS_URL="http://$(kubectl get svc -n openfaas gateway-external -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'):8080"
@@ -68,7 +80,7 @@ echo -n $PASSWORD | faas-cli login -g $OPENFAAS_URL -u admin --password-stdin
 # Function deployment to be added
 
 # Delete OpenFaaS from the cluster
-source ./setup.sh openfaas -d
+./setup.sh openfaas -d
 ```
 
 **OpenWhisk**
@@ -89,8 +101,11 @@ openssl x509 -req \
 # Run this command, copy ARN, and paste it in `clusters/openwhisk/openwhisk-eks.yaml`
 aws iam upload-server-certificate --server-certificate-name ow-self-signed --certificate-body file://clusters/openwhisk/openwhisk-server-cert.pem --private-key file://clusters/openwhisk/openwhisk-server-key.pem
 
+# Run this if you are using EKS
+export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_openwhisk"
+
 # Set up OpenWhisk locally
-source ./setup.sh openwhisk
+./setup.sh openwhisk
 
 # Wait until everything is ready and configure wsk (CLI)
 # For local K8S cluster
@@ -103,21 +118,35 @@ echo "APIGW_ACCESS_TOKEN=token" >> ~/.wskprops
 # Function deployment to be added
 
 # Delete OpenWhisk from the cluster
-source ./setup.sh openwhisk -d
+./setup.sh openwhisk -d
 ```
 
 **Kubeless**
 
 ```sh
+# Run this if you are using EKS
+export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_kubeless"
+
 # Set up Kubeless locally
-source ./setup.sh kubeless
+./setup.sh kubeless
 
 # Function deployment to be added
 
 # Delete Kubeless from the cluster
-source ./setup.sh kubeless -d
+./setup.sh kubeless -d
 ```
 
 **Fission**
 
-To be added
+```sh
+# Run this if you are using EKS
+export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_fission"
+
+# Set up Fission locally
+./setup.sh fission
+
+# Function deployment to be added
+
+# Delete Fission from the cluster
+./setup.sh fission -d
+```

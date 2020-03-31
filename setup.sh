@@ -110,6 +110,30 @@ kubeless() {
   fi
 }
 
+fission() {
+  if [ $remote = "true" ]
+  then
+    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_fission"
+  fi
+
+  if [ $delete = "false" ]
+  then
+    echo "Setting up Fission..."
+
+    helm install metrics-server --namespace kube-system stable/metrics-server \
+      --set args="{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP\,ExternalIP\,Hostname}"
+
+    kubectl create ns fission
+    helm install fission -n fission \
+      https://github.com/fission/fission/releases/download/1.8.0/fission-core-1.8.0.tgz
+  else
+    echo "Deleting Fission..."
+    helm uninstall fission -n fission
+    kubectl delete ns fission
+    helm uninstall metrics-server -n kube-system
+  fi
+}
+
 ########################################################################################
 
 if [ -z $1 ]
@@ -126,12 +150,13 @@ do
   esac
 done
 
-export KUBECONFIG="$HOME/.kube/config"
+unset KUBECONFIG
 
 case $1 in
   "knative") knative ;;
   "openfaas") openfaas ;;
   "openwhisk") openwhisk ;;
   "kubeless") kubeless ;;
+  "fission") fission ;;
   *) echo "Invalid platform" ;;
 esac
