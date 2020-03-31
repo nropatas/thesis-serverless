@@ -88,7 +88,7 @@ openwhisk() {
 kubeless() {
   if [ $remote = "true" ]
   then
-    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_openwhisk"
+    export KUBECONFIG="${proj_dir}/clusters/eks/kubeconfig_kubeless"
   fi
 
   if [ $delete = "false" ]
