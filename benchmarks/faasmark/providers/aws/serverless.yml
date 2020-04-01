@@ -20,12 +20,12 @@ functions:
   empty:
     runtime: nodejs12.x
     memorySize: 1024
-    handler: empty.empty
+    handler: src/handlers/empty.empty
 
   simpleInitiator:
     runtime: nodejs12.x
     memorySize: 1024
-    handler: simpleInitiator.simpleInitiator
+    handler: src/handlers/simpleInitiator.simpleInitiator
     events:
       - http:
           path: simpleInitiator
@@ -36,22 +36,22 @@ functions:
   empty-js-128:
     runtime: nodejs12.x
     memorySize: 128
-    handler: empty.empty
+    handler: src/handlers/empty.empty
 
   empty-js-256:
     runtime: nodejs12.x
     memorySize: 256
-    handler: empty.empty
+    handler: src/handlers/empty.empty
 
   empty-js-512:
     runtime: nodejs12.x
     memorySize: 512
-    handler: empty.empty
+    handler: src/handlers/empty.empty
 
   empty-js-1024:
     runtime: nodejs12.x
     memorySize: 1024
-    handler: empty.empty
+    handler: src/handlers/empty.empty
     events:
       - http:
           path: empty-js-1024
@@ -60,26 +60,26 @@ functions:
   empty-py-1024:
     runtime: python2.7
     memorySize: 1024
-    handler: empty.empty
+    handler: src/handlers/empty.empty
 
   empty-java-1024:
     runtime: java8
     memorySize: 1024
-    handler: Empty
+    handler: src/handlers/Empty
 
   aspectInitiator:
     runtime: nodejs12.x
     memorySize: 1024
-    handler: aspectInitiator.aspectInitiator
+    handler: src/handlers/aspectInitiator.aspectInitiator
 
 
 
   sleeper:
     runtime: nodejs12.x
     memorySize: 1024
-    handler: sleeper.sleeper
+    handler: src/handlers/sleeper.sleeper
 
   concurrencyInitiator:
     runtime: nodejs12.x
     memorySize: 1024
-    handler: concurrencyInitiator.concurrencyInitiator
+    handler: src/handlers/concurrencyInitiator.concurrencyInitiator

@@ -41,8 +41,8 @@ function concurrencyInitiator(concurrency, repeat, provider, callback) {
   }
 }
 
-const aws = require('./aws.js');
-const util = require('./util.js');
+const aws = require('../../aws');
+const util = require('../../../../util');
 
 exports.concurrencyInitiator = (event, context, callback) => {
   const cb = (code, msg) => callback(null, { statusCode: code, body: msg });

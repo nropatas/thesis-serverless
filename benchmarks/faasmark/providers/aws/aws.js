@@ -1,8 +1,6 @@
-'use strict';
-
 const https = require('https');
 const AWS = require('aws-sdk');
-const util = require('./util.js');
+const util = require('../../util');
 
 const createCloudDriver = exports.createCloudDriver = function createCloudDriver(serviceName, params) {
   AWS.config.update({

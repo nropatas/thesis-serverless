@@ -39,7 +39,7 @@ function simpleInitiator(repeat, provider, callback) {
   invokeOneFunction();
 }
 
-const aws = require('./aws.js');
+const aws = require('../../aws');
 
 exports.simpleInitiator = (event, context, callback) => {
   if (!/^(\d|[1-9]\d{1,4})$/.test(event.queryStringParameters ? event.queryStringParameters.repeat : '')) {
