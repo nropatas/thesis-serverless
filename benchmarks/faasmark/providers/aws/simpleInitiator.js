@@ -1,9 +1,7 @@
-'use strict';
-
 function getTimeMicroseconds() {
   const t = process.hrtime();
   return t[0] * 1000000 + Math.floor(t[1] / 1000.0);
-};
+}
 
 function simpleInitiator(repeat, provider, callback) {
   const skip = Math.max(Math.ceil(repeat / 10), 5);

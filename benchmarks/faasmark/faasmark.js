@@ -1,7 +1,5 @@
-'use strict';
-
 const fs = require('fs');
-const util = require('./util.js');
+const util = require('./util');
 const settings = require('./settings.json');
 
 function createCloudProviders() {

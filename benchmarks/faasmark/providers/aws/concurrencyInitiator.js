@@ -1,5 +1,3 @@
-'use strict';
-
 function getTimeMicroseconds() {
   const t = process.hrtime();
   return t[0] * 1000000 + Math.floor(t[1] / 1000.0);
