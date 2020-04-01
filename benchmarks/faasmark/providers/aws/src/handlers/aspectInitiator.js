@@ -43,7 +43,7 @@ function aspectInitiator(aspect, method, lang, memory, repeat, provider, callbac
 }
 
 const aws = require('../../aws');
-const util = require('../../../../util');
+const util = require('../util');
 
 exports.aspectInitiator = (event, context, callback) => {
   const cb = (code, msg) => callback(null, { statusCode: code, body: msg });

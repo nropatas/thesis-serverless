@@ -1,4 +1,4 @@
-const util = require('../../util');
+const util = require('./src/util');
 
 const createCloudDriver = exports.createCloudDriver = function createCloudDriver(serviceName) {
 
