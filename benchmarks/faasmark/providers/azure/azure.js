@@ -1,6 +1,4 @@
-'use strict';
-
-const util = require('../../util.js');
+const util = require('../../util');
 
 const createCloudDriver = exports.createCloudDriver = function createCloudDriver(serviceName) {
 

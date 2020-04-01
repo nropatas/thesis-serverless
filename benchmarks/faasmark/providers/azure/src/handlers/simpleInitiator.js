@@ -1,9 +1,7 @@
-'use strict';
-
 function getTimeMicroseconds() {
   const t = process.hrtime();
   return t[0] * 1000000 + Math.floor(t[1] / 1000.0);
-};
+}
 
 function simpleInitiator(repeat, provider, callback) {
   const skip = Math.max(Math.ceil(repeat / 10), 5);
@@ -77,7 +75,7 @@ function httpsGet(url, params, callback) {
     callback(998);
   });
   req.end();
-};
+}
 
 module.exports = (context, req) => {
   if (!/^(\d|[1-9]\d{1,4})$/.test(req.query.repeat)) {

@@ -1,0 +1,34 @@
+service: azure
+
+provider:
+  name: azure
+  region: West Europe
+  runtime: nodejs12.x
+
+plugins: # look for additional plugins in the community plugins repo: https://github.com/serverless/plugins
+  - serverless-azure-functions
+
+# you can add packaging information here
+package:
+  exclude:
+    - local.settings.json
+    - .vscode/**
+
+functions:
+  empty:
+    handler: src/handlers/empty
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - get
+          authLevel: anonymous
+
+  simpleInitiator:
+    handler: src/handlers/simpleInitiator
+    events:
+      - http: true
+        x-azure-settings:
+          methods:
+            - get
+          authLevel: anonymous
