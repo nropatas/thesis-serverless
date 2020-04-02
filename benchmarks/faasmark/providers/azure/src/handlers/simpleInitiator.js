@@ -86,7 +86,7 @@ module.exports = (context, req) => {
   const repeat = parseInt(req.query.repeat);
 
   const driver = {
-    invoke: (name, params, callback) => httpsGet(`https://faasmark.azurewebsites.net/api/${name}`, params, callback),
+    invoke: (name, params, callback) => httpsGet(`https://sls-weur-dev-faasmark.azurewebsites.net/api/${name}`, params, callback),
   };
 
   simpleInitiator(repeat, driver, output => {
