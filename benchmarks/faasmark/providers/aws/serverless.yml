@@ -63,9 +63,11 @@ functions:
     handler: src/handlers/empty.empty
 
   empty-java-1024:
-    runtime: java8
+    runtime: java11
     memorySize: 1024
-    handler: src/handlers/Empty
+    package:
+      artifact: build/distributions/faasmark.zip
+    handler: com.serverless.Empty::handleRequest
 
   aspectInitiator:
     runtime: nodejs12.x
