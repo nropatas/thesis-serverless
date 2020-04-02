@@ -25,6 +25,7 @@ function simpleInitiator(repeat, provider, callback) {
       if (invocations < count) {
         invokeOneFunction();
       }
+      // Don't record the latencies of the first `skip` invocations
       if (skip < ++successes) {
         latencies[successes - skip - 1] = end - start;
       }
