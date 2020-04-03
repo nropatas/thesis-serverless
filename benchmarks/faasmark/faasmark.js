@@ -108,6 +108,7 @@ function warmUp(provider, functionName, concurrency) {
 
     function callback(error) {
       if (error) {
+        // HTTP 429 Too Many Requests
         if (error.statusCode && error.statusCode === 429) {
           errors++;
           timeout = timeout || setTimeout(invokeOne, 0);
@@ -151,6 +152,7 @@ async function runOneConcurrencyBenchmark(provider, concurrency) {
       process.exit(1);
     }
     retries += r.retries;
+    // Combine all latencies into one array (concatenation)
     latencies.splice(latencies.length, 0, ...r.latencies);
   }
   util.nsort(latencies);
