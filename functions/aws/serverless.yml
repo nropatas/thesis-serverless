@@ -59,7 +59,7 @@ provider:
 
 functions:
   aws-simple:
-    handler: handler.simple
+    handler: src/handlers.simple
     memorySize: 128
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -100,6 +100,13 @@ functions:
 #    Define function environment variables here
 #    environment:
 #      variable2: value2
+  float:
+    runtime: python2.7
+    handler: src/float-operations.handler
+    events:
+      - http:
+          path: float
+          method: get
 
 # you can add CloudFormation resource templates here
 #resources:
