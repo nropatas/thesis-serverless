@@ -23,8 +23,8 @@ RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor 
 	chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg && \
 	chown root:root /etc/apt/sources.list.d/microsoft-prod.list
 
-RUN npm install -g serverless azure-functions-core-tools@3
-RUN apt-get update && apt-get install azure-cli openjdk-8-jdk maven dotnet-sdk-3.1 -y --fix-missing
+RUN npm install -g serverless azure-functions-core-tools@3 --unsafe-perm=true --allow-root
+RUN apt-get update && apt-get install azure-cli openjdk-8-jdk maven dotnet-sdk-3.1 libsecret-1-dev -y --fix-missing
 RUN mkdir /app
 
 COPY --from=builder /app/ /app
