@@ -9,7 +9,7 @@ const REQ_CONFIG = {
     n: 1000,
   },
 };
-const NUM_REQS = 3;
+const NUM_REQS = 100;
 const CONCURRENT = true;
 
 async function invokeFunction() {
@@ -35,7 +35,7 @@ async function invokeFunction() {
 async function test() {
   if (CONCURRENT) {
     const out = await Bluebird.map(_.range(NUM_REQS), invokeFunction);
-    console.log(out);
+    console.log(_.maxBy(out, 'latency'));
   } else {
     
   }

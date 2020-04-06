@@ -15,4 +15,7 @@ def handler(event, context):
     n = int(event['queryStringParameters']['n'])
     result = float_operations(n)
     print(result)
-    return result
+    return {
+        'statusCode': 200,
+        'body': result,
+    }
