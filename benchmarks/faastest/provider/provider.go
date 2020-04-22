@@ -2,18 +2,20 @@ package provider
 
 import (
 	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+	"time"
+
 	"github.com/nuweba/faasbenchmark/provider/aws"
 	"github.com/nuweba/faasbenchmark/provider/azure"
 	"github.com/nuweba/faasbenchmark/provider/google"
+	"github.com/nuweba/faasbenchmark/provider/openfaas"
 	"github.com/nuweba/faasbenchmark/report"
 	"github.com/nuweba/faasbenchmark/stack"
 	"github.com/nuweba/httpbench/engine"
 	"github.com/nuweba/httpbench/syncedtrace"
 	"github.com/pkg/errors"
-	"net/http"
-	"net/url"
-	"strings"
-	"time"
 )
 
 type RequestFilter = func(sleepTime time.Duration, tr *engine.TraceResult, funcDuration time.Duration, reused bool) (report.Result, error)
@@ -36,6 +38,7 @@ const (
 	AWS Providers = iota
 	Google
 	Azure
+	OpenFaaS
 	ProvidersCount
 )
 
@@ -44,6 +47,7 @@ func (p Providers) String() string {
 		"aws",
 		"google",
 		"azure",
+		"openfaas",
 	}[p]
 }
 
@@ -52,6 +56,7 @@ func (p Providers) Description() string {
 		"aws lambda functions",
 		"google cloud functions",
 		"azure functions",
+		"openfaas",
 	}[p]
 }
 
@@ -66,6 +71,8 @@ func NewProvider(providerName string) (FaasProvider, error) {
 		faasProvider, err = google.New()
 	case strings.ToLower(Azure.String()):
 		faasProvider, err = azure.New()
+	case strings.ToLower(OpenFaaS.String()):
+		faasProvider, err = openfaas.New()
 	default:
 		faasProvider, err = nil, errors.New(fmt.Sprintf("provider not supported: %s", providerName))
 	}

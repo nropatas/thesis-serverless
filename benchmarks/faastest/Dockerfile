@@ -10,6 +10,17 @@ FROM node:13.8.0-stretch
 
 RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg wget software-properties-common gcc zip unzip python3 python3-pip
 
+# Install kubectl and aws-iam-authenticator
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
+	chmod +x ./kubectl && \
+	mv ./kubectl /usr/local/bin && \
+	curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator && \
+	chmod +x ./aws-iam-authenticator && \
+	mv ./aws-iam-authenticator /usr/local/bin
+
+# Install faas-cli
+RUN curl -sSL https://cli.openfaas.com | sh
+
 # add azure cli repo
 RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null && \
 	AZ_REPO=$(lsb_release -cs) && \
