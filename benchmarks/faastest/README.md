@@ -1,3 +1,5 @@
+See the original document at https://github.com/nuweba/faasbenchmark.
+
 # Setup
 
 Follow these steps before building `faasbenchmark` Docker image.
