@@ -38,7 +38,7 @@ func New() (*Aws, error) {
 	//if err != nil {
 	//	return nil, err
 	//}
-	region := "us-east-1"
+	region := "eu-central-1"
 
 	return &Aws{session: ses, region: region, name: name}, nil
 }

@@ -20,7 +20,7 @@ knative() {
     kubectl apply -f clusters/knative/istio-knative-extras.yaml
     kubectl apply -f https://github.com/knative/serving/releases/download/v0.13.0/serving-istio.yaml
   else
-    echo "Deleting up Knative..."
+    echo "Deleting Knative..."
     kubectl delete -f https://github.com/knative/serving/releases/download/v0.13.0/serving-istio.yaml
     kubectl delete -f clusters/knative/istio-knative-extras.yaml
     kubectl delete -f clusters/knative/istio-minimal.yaml

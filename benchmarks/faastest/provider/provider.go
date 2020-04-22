@@ -10,6 +10,7 @@ import (
 	"github.com/nuweba/faasbenchmark/provider/aws"
 	"github.com/nuweba/faasbenchmark/provider/azure"
 	"github.com/nuweba/faasbenchmark/provider/google"
+	"github.com/nuweba/faasbenchmark/provider/knative"
 	"github.com/nuweba/faasbenchmark/provider/openfaas"
 	"github.com/nuweba/faasbenchmark/report"
 	"github.com/nuweba/faasbenchmark/stack"
@@ -38,6 +39,7 @@ const (
 	AWS Providers = iota
 	Google
 	Azure
+	Knative
 	OpenFaaS
 	ProvidersCount
 )
@@ -47,6 +49,7 @@ func (p Providers) String() string {
 		"aws",
 		"google",
 		"azure",
+		"knative",
 		"openfaas",
 	}[p]
 }
@@ -56,6 +59,7 @@ func (p Providers) Description() string {
 		"aws lambda functions",
 		"google cloud functions",
 		"azure functions",
+		"knative",
 		"openfaas",
 	}[p]
 }
@@ -71,6 +75,8 @@ func NewProvider(providerName string) (FaasProvider, error) {
 		faasProvider, err = google.New()
 	case strings.ToLower(Azure.String()):
 		faasProvider, err = azure.New()
+	case strings.ToLower(Knative.String()):
+		faasProvider, err = knative.New()
 	case strings.ToLower(OpenFaaS.String()):
 		faasProvider, err = openfaas.New()
 	default:
