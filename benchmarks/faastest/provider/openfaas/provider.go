@@ -2,6 +2,7 @@ package openfaas
 
 import (
 	"bytes"
+	"crypto/tls"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -10,7 +11,7 @@ import (
 
 	"github.com/golang/gddo/httputil/header"
 	"github.com/nuweba/faasbenchmark/stack"
-	"github.com/nuweba/httpbench/syncedtrace"
+	"github.com/nropatas/httpbench/syncedtrace"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )
@@ -40,6 +41,10 @@ func New() (*OpenFaaS, error) {
 
 func (openfaas *OpenFaaS) Name() string {
 	return openfaas.name
+}
+
+func (openfaas *OpenFaaS) TLSConfig() *tls.Config {
+	return nil
 }
 
 func (openfaas *OpenFaaS) IngressUrl() string {

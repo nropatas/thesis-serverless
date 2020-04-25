@@ -2,12 +2,13 @@ package tests
 
 import (
 	"fmt"
-	"github.com/nuweba/faasbenchmark/config"
-	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
-	"github.com/nuweba/httpbench"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/nuweba/faasbenchmark/config"
+	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
+	"github.com/nropatas/httpbench"
 )
 
 const (
@@ -62,7 +63,8 @@ func burst(test *config.Test, size uint64) {
 		}
 
 		newReq := test.Config.Provider.NewFunctionRequest(hfConf.Test.Stack, hfConf.Function, hfConf.HttpConfig.QueryParams, hfConf.HttpConfig.Headers, hfConf.HttpConfig.Body)
-		trace := httpbench.New(newReq, hfConf.HttpConfig.Hook)
+		tlsConfig := test.Config.Provider.TLSConfig()
+		trace := httpbench.New(newReq, hfConf.HttpConfig.Hook, tlsConfig)
 
 		wg.Add(1)
 		go func() {

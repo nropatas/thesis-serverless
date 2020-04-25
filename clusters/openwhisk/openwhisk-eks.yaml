@@ -1,6 +1,12 @@
 whisk:
   ingress:
+    awsSSL: "true"
     type: LoadBalancer
     annotations:
-      service.beta.kubernetes.io/aws-load-balancer-internal: 0.0.0.0/0
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https-api
       service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:iam::377265424535:server-certificate/ow-self-signed
+
+  limits:
+    actionsInvokesPerminute: 200
+    actionsInvokesConcurrent: 100

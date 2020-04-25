@@ -6,7 +6,7 @@ function getDuration(startTime) {
 }
 
 function getSleep(event) {
-    const sleep_time = event.query.sleep ? parseInt(event.query.sleep) : null;
+    const sleep_time = event.sleep ? parseInt(event.sleep) : null;
     if (!sleep_time && sleep_time !== 0) {
         return {"error": "invalid sleep parameter"};
     }
@@ -27,13 +27,15 @@ function isWarm() {
     return is_warm;
 }
 
-module.exports = async (event, context) => {
+exports.sleep = async (args) => {
     const startTime = process.hrtime();
-    const params = getParameters(event);
+    const params = getParameters(args);
     if (params.error) {
-        return context.status(200).succeed({
-            error: params.error,
-        });
+        return {
+            statusCode: 200,
+            headers: { 'Content-Type': 'application/json' },
+            body: { error: params.error },
+        };
     }
 
     await runTest(params);
@@ -41,8 +43,11 @@ module.exports = async (event, context) => {
     const reused = isWarm();
     const duration = getDuration(startTime);
 
-    return context.status(200).succeed({
-        reused: reused,
-        duration: duration,
-    });
+    return {
+        statusCode: 200,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: { reused, duration },
+    }
 }
