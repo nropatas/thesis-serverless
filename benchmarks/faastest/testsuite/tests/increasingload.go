@@ -3,13 +3,14 @@ package tests
 import (
 	"bytes"
 	"fmt"
-	"github.com/nuweba/faasbenchmark/config"
-	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
-	"github.com/nuweba/httpbench"
 	"net/http"
 	"net/url"
 	"sync"
 	"time"
+
+	"github.com/nuweba/faasbenchmark/config"
+	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
+	"github.com/nropatas/httpbench"
 )
 
 const (
@@ -197,8 +198,9 @@ func increasingLoad(test *config.Test, httpConfig config.Http) {
 
 func executeTest(hfConf *config.HttpFunction) {
 	newReq := hfConf.Test.Config.Provider.NewFunctionRequest(hfConf.Test.Stack, hfConf.Function, hfConf.HttpConfig.QueryParams, hfConf.HttpConfig.Headers, hfConf.HttpConfig.Body)
+	tlsConfig := hfConf.Test.Config.Provider.TLSConfig()
 	wg := &sync.WaitGroup{}
-	trace := httpbench.New(newReq, hfConf.HttpConfig.Hook)
+	trace := httpbench.New(newReq, hfConf.HttpConfig.Hook, tlsConfig)
 	wg.Add(1)
 	go func() {
 		defer wg.Done()

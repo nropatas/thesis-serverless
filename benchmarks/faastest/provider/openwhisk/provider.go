@@ -1,4 +1,4 @@
-package knative
+package openwhisk
 
 import (
 	"bytes"
@@ -7,22 +7,23 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"path"
 
 	"github.com/golang/gddo/httputil/header"
-	"github.com/nuweba/faasbenchmark/stack"
 	"github.com/nropatas/httpbench/syncedtrace"
+	"github.com/nuweba/faasbenchmark/stack"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )
 
-type Knative struct {
+type OpenWhisk struct {
 	region     string
 	name       string
 	ingressUrl string
 }
 
-func New() (*Knative, error) {
-	name := "knative"
+func New() (*OpenWhisk, error) {
+	name := "openwhisk"
 	region := "eu-central-1"
 
 	viper.SetConfigName("providers")
@@ -35,22 +36,22 @@ func New() (*Knative, error) {
 
 	ingressUrl := viper.GetString(fmt.Sprintf("%s.ingress-url", name))
 
-	return &Knative{region: region, name: name, ingressUrl: ingressUrl}, nil
+	return &OpenWhisk{region: region, name: name, ingressUrl: ingressUrl}, nil
 }
 
-func (knative *Knative) Name() string {
-	return knative.name
+func (openwhisk *OpenWhisk) Name() string {
+	return openwhisk.name
 }
 
-func (knative *Knative) TLSConfig() *tls.Config {
-	return nil
+func (openwhisk *OpenWhisk) TLSConfig() *tls.Config {
+	return &tls.Config{InsecureSkipVerify: true}
 }
 
-func (knative *Knative) buildFuncInvokeReq(funcName string, qParams *url.Values, headers *http.Header, body *[]byte) (*http.Request, error) {
-	funcUrl := url.URL{
-		Scheme: "http",
-		Host:   knative.ingressUrl,
-	}
+func (openwhisk *OpenWhisk) buildFuncInvokeReq(funcName string, qParams *url.Values, headers *http.Header, body *[]byte) (*http.Request, error) {
+	funcUrl := url.URL{}
+	funcUrl.Scheme = "https"
+	funcUrl.Host = openwhisk.ingressUrl
+	funcUrl.Path = path.Join(funcUrl.Path, "api", "v1", "web", "guest", "default", funcName)
 
 	req, err := http.NewRequest("POST", funcUrl.String(), ioutil.NopCloser(bytes.NewReader(*body)))
 
@@ -66,19 +67,17 @@ func (knative *Knative) buildFuncInvokeReq(funcName string, qParams *url.Values,
 		}
 	}
 
-	req.Header.Set("Host", fmt.Sprintf("%s.default.example.com", funcName))
-
 	return req, nil
 }
 
-func (knative *Knative) NewFunctionRequest(stack stack.Stack, function stack.Function, qParams *url.Values, headers *http.Header, body *[]byte) func(uniqueId string) (*http.Request, error) {
+func (openwhisk *OpenWhisk) NewFunctionRequest(stack stack.Stack, function stack.Function, qParams *url.Values, headers *http.Header, body *[]byte) func(uniqueId string) (*http.Request, error) {
 	return func(uniqueId string) (*http.Request, error) {
 		localHeaders := header.Copy(*headers)
 		localHeaders.Add("Faastest-id", uniqueId)
-		return knative.buildFuncInvokeReq(function.Name(), qParams, &localHeaders, body)
+		return openwhisk.buildFuncInvokeReq(function.Name(), qParams, &localHeaders, body)
 	}
 }
 
-func (knative *Knative) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
+func (openwhisk *OpenWhisk) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
 	return syncedtrace.TLSHandshakeDone
 }

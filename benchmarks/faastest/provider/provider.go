@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -12,10 +13,11 @@ import (
 	"github.com/nuweba/faasbenchmark/provider/google"
 	"github.com/nuweba/faasbenchmark/provider/knative"
 	"github.com/nuweba/faasbenchmark/provider/openfaas"
+	"github.com/nuweba/faasbenchmark/provider/openwhisk"
 	"github.com/nuweba/faasbenchmark/report"
 	"github.com/nuweba/faasbenchmark/stack"
-	"github.com/nuweba/httpbench/engine"
-	"github.com/nuweba/httpbench/syncedtrace"
+	"github.com/nropatas/httpbench/engine"
+	"github.com/nropatas/httpbench/syncedtrace"
 	"github.com/pkg/errors"
 )
 
@@ -28,6 +30,7 @@ type Filter interface {
 type FaasProvider interface {
 	Filter
 	Name() string
+	TLSConfig() *tls.Config
 	HttpInvocationTriggerStage() syncedtrace.TraceHookType
 	NewStack(stackPath string) (stack.Stack, error)
 	NewFunctionRequest(stack stack.Stack, function stack.Function, qParams *url.Values, headers *http.Header, body *[]byte) func(uniqueId string) (*http.Request, error)
@@ -41,6 +44,7 @@ const (
 	Azure
 	Knative
 	OpenFaaS
+	OpenWhisk
 	ProvidersCount
 )
 
@@ -51,6 +55,7 @@ func (p Providers) String() string {
 		"azure",
 		"knative",
 		"openfaas",
+		"openwhisk",
 	}[p]
 }
 
@@ -61,6 +66,7 @@ func (p Providers) Description() string {
 		"azure functions",
 		"knative",
 		"openfaas",
+		"openwhisk",
 	}[p]
 }
 
@@ -79,6 +85,8 @@ func NewProvider(providerName string) (FaasProvider, error) {
 		faasProvider, err = knative.New()
 	case strings.ToLower(OpenFaaS.String()):
 		faasProvider, err = openfaas.New()
+	case strings.ToLower(OpenWhisk.String()):
+		faasProvider, err = openwhisk.New()
 	default:
 		faasProvider, err = nil, errors.New(fmt.Sprintf("provider not supported: %s", providerName))
 	}

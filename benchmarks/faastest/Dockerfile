@@ -21,6 +21,13 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s
 # Install faas-cli
 RUN curl -sSL https://cli.openfaas.com | sh
 
+# Install openwhisk-cli
+RUN curl -LO https://github.com/apache/openwhisk-cli/releases/download/1.0.0/OpenWhisk_CLI-1.0.0-linux-arm64.tgz && \
+	tar -xz -f OpenWhisk_CLI-1.0.0-linux-arm64.tgz && \
+	rm OpenWhisk_CLI-1.0.0-linux-arm64.tgz && \
+	mv ./wsk /usr/local/bin && \
+	echo "APIGW_ACCESS_TOKEN=token" >> ~/.wskprops
+
 # add azure cli repo
 RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null && \
 	AZ_REPO=$(lsb_release -cs) && \

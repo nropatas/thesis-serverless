@@ -3,7 +3,7 @@ package config
 import (
 	"github.com/nuweba/faasbenchmark/provider"
 	"github.com/nuweba/faasbenchmark/report"
-	"github.com/nuweba/httpbench/engine"
+	"github.com/nropatas/httpbench/engine"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"io"

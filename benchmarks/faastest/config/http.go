@@ -2,8 +2,8 @@ package config
 
 import (
 	"encoding/json"
-	"github.com/nuweba/httpbench"
-	"github.com/nuweba/httpbench/syncedtrace"
+	"github.com/nropatas/httpbench"
+	"github.com/nropatas/httpbench/syncedtrace"
 	"net/http"
 	"net/url"
 	"time"
