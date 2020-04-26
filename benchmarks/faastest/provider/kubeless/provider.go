@@ -1,4 +1,4 @@
-package knative
+package kubeless
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"path"
 
 	"github.com/golang/gddo/httputil/header"
 	"github.com/nropatas/httpbench/syncedtrace"
@@ -15,14 +16,14 @@ import (
 	"github.com/spf13/viper"
 )
 
-type Knative struct {
+type Kubeless struct {
 	region     string
 	name       string
 	ingressUrl string
 }
 
-func New() (*Knative, error) {
-	name := "knative"
+func New() (*Kubeless, error) {
+	name := "kubeless"
 	region := "eu-central-1"
 
 	viper.SetConfigName("providers")
@@ -35,22 +36,22 @@ func New() (*Knative, error) {
 
 	ingressUrl := viper.GetString(fmt.Sprintf("%s.ingress-url", name))
 
-	return &Knative{region: region, name: name, ingressUrl: ingressUrl}, nil
+	return &Kubeless{region: region, name: name, ingressUrl: ingressUrl}, nil
 }
 
-func (knative *Knative) Name() string {
-	return knative.name
+func (kubeless *Kubeless) Name() string {
+	return kubeless.name
 }
 
-func (knative *Knative) TLSConfig() *tls.Config {
+func (kubeless *Kubeless) TLSConfig() *tls.Config {
 	return nil
 }
 
-func (knative *Knative) buildFuncInvokeReq(funcName string, qParams *url.Values, headers *http.Header, body *[]byte) (*http.Request, error) {
-	funcUrl := url.URL{
-		Scheme: "http",
-		Host:   knative.ingressUrl,
-	}
+func (kubeless *Kubeless) buildFuncInvokeReq(funcName string, qParams *url.Values, headers *http.Header, body *[]byte) (*http.Request, error) {
+	funcUrl := url.URL{}
+	funcUrl.Scheme = "http"
+	funcUrl.Host = kubeless.ingressUrl
+	funcUrl.Path = path.Join(funcUrl.Path, funcName)
 
 	req, err := http.NewRequest("POST", funcUrl.String(), ioutil.NopCloser(bytes.NewReader(*body)))
 
@@ -59,7 +60,7 @@ func (knative *Knative) buildFuncInvokeReq(funcName string, qParams *url.Values,
 	}
 
 	req.URL.RawQuery = qParams.Encode()
-	req.Host = fmt.Sprintf("%s.default.example.com", funcName)
+	req.Host = "example.com"
 
 	for k, multiH := range *headers {
 		for _, h := range multiH {
@@ -70,14 +71,14 @@ func (knative *Knative) buildFuncInvokeReq(funcName string, qParams *url.Values,
 	return req, nil
 }
 
-func (knative *Knative) NewFunctionRequest(stack stack.Stack, function stack.Function, qParams *url.Values, headers *http.Header, body *[]byte) func(uniqueId string) (*http.Request, error) {
+func (kubeless *Kubeless) NewFunctionRequest(stack stack.Stack, function stack.Function, qParams *url.Values, headers *http.Header, body *[]byte) func(uniqueId string) (*http.Request, error) {
 	return func(uniqueId string) (*http.Request, error) {
 		localHeaders := header.Copy(*headers)
 		localHeaders.Add("Faastest-id", uniqueId)
-		return knative.buildFuncInvokeReq(function.Name(), qParams, &localHeaders, body)
+		return kubeless.buildFuncInvokeReq(function.Name(), qParams, &localHeaders, body)
 	}
 }
 
-func (knative *Knative) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
+func (kubeless *Kubeless) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
 	return syncedtrace.TLSHandshakeDone
 }
