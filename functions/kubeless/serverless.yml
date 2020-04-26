@@ -18,6 +18,7 @@ service: kubeless
 provider:
   name: kubeless
   runtime: nodejs12
+  hostname: example.com
 
 plugins:
   - serverless-kubeless
@@ -26,3 +27,6 @@ functions:
   kubeless-simple:
     handler: handler.simple
     # memorySize: 256M # Maximum memory
+    events:
+      - http:
+          path: /kubeless-simple

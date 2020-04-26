@@ -83,3 +83,11 @@ export AWS_ACCESS_KEY_ID=<your key id> \
 wsk property set --apihost "$(kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' --kubeconfig /app/kubeconfigs/kubeconfig_openwhisk):443"
 wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP
 ```
+
+### Kubeless
+
+```sh
+export AWS_ACCESS_KEY_ID=<your key id> \
+  AWS_SECRET_ACCESS_KEY=<your secret key> \
+  KUBECONFIG=/app/kubeconfigs/kubeconfig_kubeless
+```

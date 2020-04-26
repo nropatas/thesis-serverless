@@ -1,0 +1,21 @@
+service: singlefunction
+
+provider:
+  name: kubeless
+  project: faastest
+  stage: dev
+  hostname: example.com
+
+plugins:
+  - serverless-kubeless
+
+functions:
+  sleep-node12-128mb:
+    name: sleep-node12-128mb
+    description: sleep function 128mb
+    runtime: nodejs12
+    handler: handler.sleep
+    memorySize: 128M
+    events:
+      - http:
+          path: /sleep-node12-128mb

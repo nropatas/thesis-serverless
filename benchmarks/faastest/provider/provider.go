@@ -8,16 +8,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/nropatas/httpbench/engine"
+	"github.com/nropatas/httpbench/syncedtrace"
 	"github.com/nuweba/faasbenchmark/provider/aws"
 	"github.com/nuweba/faasbenchmark/provider/azure"
 	"github.com/nuweba/faasbenchmark/provider/google"
 	"github.com/nuweba/faasbenchmark/provider/knative"
+	"github.com/nuweba/faasbenchmark/provider/kubeless"
 	"github.com/nuweba/faasbenchmark/provider/openfaas"
 	"github.com/nuweba/faasbenchmark/provider/openwhisk"
 	"github.com/nuweba/faasbenchmark/report"
 	"github.com/nuweba/faasbenchmark/stack"
-	"github.com/nropatas/httpbench/engine"
-	"github.com/nropatas/httpbench/syncedtrace"
 	"github.com/pkg/errors"
 )
 
@@ -45,6 +46,7 @@ const (
 	Knative
 	OpenFaaS
 	OpenWhisk
+	Kubeless
 	ProvidersCount
 )
 
@@ -56,6 +58,7 @@ func (p Providers) String() string {
 		"knative",
 		"openfaas",
 		"openwhisk",
+		"kubeless",
 	}[p]
 }
 
@@ -67,6 +70,7 @@ func (p Providers) Description() string {
 		"knative",
 		"openfaas",
 		"openwhisk",
+		"kubeless",
 	}[p]
 }
 
@@ -87,6 +91,8 @@ func NewProvider(providerName string) (FaasProvider, error) {
 		faasProvider, err = openfaas.New()
 	case strings.ToLower(OpenWhisk.String()):
 		faasProvider, err = openwhisk.New()
+	case strings.ToLower(Kubeless.String()):
+		faasProvider, err = kubeless.New()
 	default:
 		faasProvider, err = nil, errors.New(fmt.Sprintf("provider not supported: %s", providerName))
 	}
