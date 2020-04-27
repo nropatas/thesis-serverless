@@ -12,6 +12,7 @@ import (
 	"github.com/nropatas/httpbench/syncedtrace"
 	"github.com/nuweba/faasbenchmark/provider/aws"
 	"github.com/nuweba/faasbenchmark/provider/azure"
+	"github.com/nuweba/faasbenchmark/provider/fission"
 	"github.com/nuweba/faasbenchmark/provider/google"
 	"github.com/nuweba/faasbenchmark/provider/knative"
 	"github.com/nuweba/faasbenchmark/provider/kubeless"
@@ -47,6 +48,7 @@ const (
 	OpenFaaS
 	OpenWhisk
 	Kubeless
+	Fission
 	ProvidersCount
 )
 
@@ -59,6 +61,7 @@ func (p Providers) String() string {
 		"openfaas",
 		"openwhisk",
 		"kubeless",
+		"fission",
 	}[p]
 }
 
@@ -71,6 +74,7 @@ func (p Providers) Description() string {
 		"openfaas",
 		"openwhisk",
 		"kubeless",
+		"fission",
 	}[p]
 }
 
@@ -93,6 +97,8 @@ func NewProvider(providerName string) (FaasProvider, error) {
 		faasProvider, err = openwhisk.New()
 	case strings.ToLower(Kubeless.String()):
 		faasProvider, err = kubeless.New()
+	case strings.ToLower(Fission.String()):
+		faasProvider, err = fission.New()
 	default:
 		faasProvider, err = nil, errors.New(fmt.Sprintf("provider not supported: %s", providerName))
 	}

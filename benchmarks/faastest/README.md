@@ -91,3 +91,11 @@ export AWS_ACCESS_KEY_ID=<your key id> \
   AWS_SECRET_ACCESS_KEY=<your secret key> \
   KUBECONFIG=/app/kubeconfigs/kubeconfig_kubeless
 ```
+
+### Fission
+
+```sh
+export AWS_ACCESS_KEY_ID=<your key id> \
+  AWS_SECRET_ACCESS_KEY=<your secret key> \
+  KUBECONFIG=/app/kubeconfigs/kubeconfig_fission
+```

@@ -14,7 +14,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.2
 	github.com/mitchellh/go-wordwrap v1.0.0 // indirect
-	github.com/nropatas/faastest-stacks v1.0.0
+	github.com/nropatas/faastest-stacks v1.1.3
 	github.com/nropatas/httpbench v1.1.1
 	github.com/nropatas/sls v1.2.0
 	github.com/nsf/termbox-go v0.0.0-20190325093121-288510b9734e // indirect

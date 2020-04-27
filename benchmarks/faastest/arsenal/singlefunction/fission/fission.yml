@@ -1,0 +1,15 @@
+env:
+  name: faastest-singlefunction
+  image: fission/node-env
+
+functions:
+  sleep-node-128mb:
+    name: sleep-node-128mb
+    handler: sleep.js
+    mincpu: 1
+    maxcpu: 200
+    minmemory: 1
+    maxmemory: 128
+    minscale: 0
+    maxscale: 10
+    targetcpu: 80 # Default: 80

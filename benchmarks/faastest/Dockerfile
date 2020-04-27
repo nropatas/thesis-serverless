@@ -28,6 +28,11 @@ RUN curl -LO https://github.com/apache/openwhisk-cli/releases/download/1.0.0/Ope
 	mv ./wsk /usr/local/bin && \
 	echo "APIGW_ACCESS_TOKEN=token" >> ~/.wskprops
 
+# Install fission cli
+RUN curl -Lo fission https://github.com/fission/fission/releases/download/1.8.0/fission-cli-linux && \
+	chmod +x fission && \
+	mv fission /usr/local/bin/
+
 # add azure cli repo
 RUN curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.asc.gpg > /dev/null && \
 	AZ_REPO=$(lsb_release -cs) && \
