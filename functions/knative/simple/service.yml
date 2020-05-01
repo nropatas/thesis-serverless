@@ -10,6 +10,9 @@ spec:
     #     autoscaling.knative.dev/metric: cpu
     #     autoscaling.knative.dev/target: "50"
     #     autoscaling.knative.dev/class: hpa.autoscaling.knative.dev
+        # autoscaling.knative.dev/minScale: "2"
+        # autoscaling.knative.dev/maxScale: "10"
     spec:
+      # containerConcurrency: 10
       containers:
         - image: docker.io/nropatas/knative-simple
