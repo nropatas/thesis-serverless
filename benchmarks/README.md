@@ -21,7 +21,7 @@ ssh ec2-user@<ip_address>
 To run FaaSTest on AWS Lambda and other open-source platforms, follow these steps.
 
 1. Create a key pair on EC2 Console.
-2. Correct the path to the private key (`private_key_path`) in `clusters/ec2/variables.tf`.
+2. Correct the key pair name (`key_pair_name`) and path to the private key (`private_key_path`) in `clusters/ec2/variables.tf`.
 3. Run these commands.
 
 ```sh
