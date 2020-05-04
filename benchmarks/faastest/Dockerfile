@@ -28,6 +28,12 @@ RUN curl -LO https://github.com/apache/openwhisk-cli/releases/download/1.0.0/Ope
 	mv ./wsk /usr/local/bin && \
 	echo "APIGW_ACCESS_TOKEN=token" >> ~/.wskprops
 
+# Install kubeless cli
+RUN curl -LO https://github.com/kubeless/kubeless/releases/download/v1.0.6/kubeless_linux-amd64.zip && \
+	unzip kubeless_linux-amd64.zip && \
+	mv bundles/kubeless_linux-amd64/kubeless /usr/local/bin && \
+	rm -rf bundles/ && rm kubeless_linux-amd64.zip
+
 # Install fission cli
 RUN curl -Lo fission https://github.com/fission/fission/releases/download/1.8.0/fission-cli-linux && \
 	chmod +x fission && \

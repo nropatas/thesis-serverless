@@ -3,21 +3,18 @@ package kubeless
 import (
 	"path/filepath"
 
+	kubelessstack "github.com/nropatas/faastest-stacks/kubeless"
 	"github.com/nuweba/faasbenchmark/stack"
-	"github.com/nuweba/faasbenchmark/stack/sls"
+	kl "github.com/nuweba/faasbenchmark/stack/kubeless"
 )
-
-type Stack struct {
-	*sls.Stack
-}
 
 func (kubeless *Kubeless) NewStack(stackPath string) (stack.Stack, error) {
 	stackPath = filepath.Join(stackPath, kubeless.Name())
-	stack, err := sls.New(kubeless.Name(), stackPath)
+	stack, err := kubelessstack.New(stackPath)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return &Stack{stack}, nil
+	return &kl.Stack{KubelessStack: stack}, nil
 }

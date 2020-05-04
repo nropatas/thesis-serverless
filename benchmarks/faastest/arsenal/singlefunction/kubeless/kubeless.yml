@@ -1,0 +1,15 @@
+hostname: example.com
+file: handler.js
+
+functions:
+  sleep-node12-128mb:
+    name: sleep-node12-128mb
+    description: sleep function 128mb
+    runtime: nodejs12
+    handler: handler.sleep
+    path: sleep-node12-128mb
+    cpu: 200m
+    memory: 128Mi
+    min-scale: 1
+    max-scale: 10
+    target-cpu: 80
