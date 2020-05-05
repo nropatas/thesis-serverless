@@ -1,14 +1,15 @@
 package tests
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"sync"
 	"time"
 
+	"github.com/nropatas/httpbench"
 	"github.com/nuweba/faasbenchmark/config"
 	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
-	"github.com/nropatas/httpbench"
 )
 
 const (
@@ -55,6 +56,14 @@ func burst(test *config.Test, size uint64) {
 		Body:             &body,
 		TestType:         httpbench.ConcurrentRequestsSyncedOnce.String(),
 	}
+
+	if test.Config.HasCustomHttpConfig() {
+		err := json.Unmarshal(*test.Config.CustomHttpConfig, httpConfig)
+		if err != nil {
+			fmt.Println("Failed to read custom HTTP config:", err.Error())
+		}
+	}
+
 	wg := &sync.WaitGroup{}
 	for _, function := range test.Stack.ListFunctions() {
 		hfConf, err := test.NewFunction(httpConfig, function)

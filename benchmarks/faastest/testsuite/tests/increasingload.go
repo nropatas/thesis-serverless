@@ -2,15 +2,16 @@ package tests
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"sync"
 	"time"
 
+	"github.com/nropatas/httpbench"
 	"github.com/nuweba/faasbenchmark/config"
 	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
-	"github.com/nropatas/httpbench"
 )
 
 const (
@@ -185,6 +186,14 @@ func increasingLoad(test *config.Test, httpConfig config.Http) {
 	}
 	httpConfig.Headers = &headers
 	httpConfig.Body = &body
+
+	if test.Config.HasCustomHttpConfig() {
+		err := json.Unmarshal(*test.Config.CustomHttpConfig, &httpConfig)
+		if err != nil {
+			fmt.Println("Failed to read custom HTTP config:", err.Error())
+		}
+	}
+
 	for _, function := range test.Stack.ListFunctions() {
 		hfConf, err := test.NewFunction(&httpConfig, function)
 

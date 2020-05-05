@@ -1,14 +1,16 @@
 package tests
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 	"sync"
 	"time"
 
+	"github.com/nropatas/httpbench"
 	"github.com/nuweba/faasbenchmark/config"
 	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
-	"github.com/nropatas/httpbench"
 )
 
 func init() {
@@ -32,6 +34,13 @@ func largeResponse(test *config.Test) {
 	httpConfig.QueryParams = &queryParams
 	httpConfig.Headers = &headers
 	httpConfig.Body = &body
+
+	if test.Config.HasCustomHttpConfig() {
+		err := json.Unmarshal(*test.Config.CustomHttpConfig, &httpConfig)
+		if err != nil {
+			fmt.Println("Failed to read custom HTTP config:", err.Error())
+		}
+	}
 
 	for _, function := range test.Stack.ListFunctions() {
 		hfConf, err := test.NewFunction(&httpConfig, function)

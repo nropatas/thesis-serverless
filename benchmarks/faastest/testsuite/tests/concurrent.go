@@ -1,14 +1,15 @@
 package tests
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"sync"
 
+	"github.com/nropatas/httpbench"
 	"github.com/nuweba/faasbenchmark/config"
 	httpbenchReport "github.com/nuweba/faasbenchmark/report/generate/httpbench"
 	"github.com/nuweba/faasbenchmark/stack"
-	"github.com/nropatas/httpbench"
 )
 
 /*
@@ -81,6 +82,13 @@ func ConcurrentIncreasingLoadLvl3(test *config.Test) {
 }
 
 func testConcurrently(test *config.Test, httpConfig *config.Http) {
+	if test.Config.HasCustomHttpConfig() {
+		err := json.Unmarshal(*test.Config.CustomHttpConfig, httpConfig)
+		if err != nil {
+			fmt.Println("Failed to read custom HTTP config:", err.Error())
+		}
+	}
+
 	var m sync.Mutex
 	c := sync.NewCond(&m)
 
