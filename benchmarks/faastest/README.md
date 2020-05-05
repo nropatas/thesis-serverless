@@ -52,6 +52,12 @@ Run a container by running:
 docker run -it faasbenchmark /bin/bash
 ```
 
+Inside the container, follow the required steps described below and run tests. The optional flag `-c` or `--config` is for a filepath to a config file containing values to override the `httpConfig` used by the test. Default values are used for missing fields. Keep the test's default behavior by not specifying the flag.
+
+```sh
+./faasbenchmark run knative BurstLvl1 -c config.json
+```
+
 ## Platform Credentials
 
 These need to be run before running tests on the corresponding platforms.
