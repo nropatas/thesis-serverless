@@ -3,6 +3,15 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"os/signal"
+	"path"
+	"path/filepath"
+	"runtime"
+	"strings"
+	"syscall"
+
 	"github.com/nuweba/faasbenchmark/config"
 	"github.com/nuweba/faasbenchmark/provider"
 	"github.com/nuweba/faasbenchmark/report"
@@ -13,13 +22,6 @@ import (
 	"github.com/nuweba/faasbenchmark/testsuite"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
-	"os"
-	"os/signal"
-	"path"
-	"path/filepath"
-	"runtime"
-	"strings"
-	"syscall"
 )
 
 const (
@@ -29,6 +31,7 @@ const (
 
 var resultPath string
 var debug bool
+var configFilepath string
 
 func init() {
 
@@ -67,6 +70,7 @@ func init() {
 			},
 		}
 		cmdProvider.Flags().BoolVarP(&debug, "debug", "d", false, "whether to show debug output, default is false")
+		cmdProvider.Flags().StringVarP(&configFilepath, "config", "c", "", "Path to the config file (json)")
 		cmdRun.AddCommand(cmdProvider)
 	}
 }
@@ -117,13 +121,21 @@ func runTests(providerName string, testIds ...string) error {
 		report = multi.Report(jsonReport, stdioReport)
 	}
 
+	var rawConfig []byte
+	if configFilepath != "" {
+		rawConfig, err = ioutil.ReadFile(configFilepath)
+		if err != nil {
+			return err
+		}
+	}
+
 	faasProvider, err := provider.NewProvider(providerName)
 	if err != nil {
 		return err
 	}
 
 	arsenalPath := filepath.Join(pgkPath, TestsDir)
-	gConfig, err := config.NewGlobalConfig(faasProvider, arsenalPath, report, debug)
+	gConfig, err := config.NewGlobalConfig(faasProvider, arsenalPath, report, debug, &rawConfig)
 	if err != nil {
 		return err
 	}
