@@ -9,8 +9,12 @@ functions:
     image: nropatas/openfaas-simple
     # limits:
     #   memory: 40Mi
-    # requests: # Needed when using HPA
+    requests: # Needed when using HPA
     #   memory: 20Mi
-    #   cpu: 10m
-    # labels:
-    #   com.openfaas.scale.factor: 0 # Needed when using HPA
+      cpu: 10m
+    labels:
+      com.openfaas.scale.factor: 0 # Needed when using HPA
+    autoscaling:
+      min: 1
+      max: 50
+      target-cpu: 80
