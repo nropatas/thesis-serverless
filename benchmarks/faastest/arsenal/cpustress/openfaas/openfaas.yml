@@ -1,0 +1,34 @@
+version: 1.0
+provider:
+  name: openfaas
+functions:
+  cpustress-node12-128mb:
+    lang: node12
+    handler: ./cpustress
+    image: nropatas/faastest-cpustress-openfaas-node12
+    limits:
+      memory: 128Mi
+  cpustress-node12-256mb:
+    lang: node12
+    handler: ./cpustress
+    image: nropatas/faastest-cpustress-openfaas-node12
+    limits:
+      memory: 256Mi
+  cpustress-node12-512mb:
+    lang: node12
+    handler: ./cpustress
+    image: nropatas/faastest-cpustress-openfaas-node12
+    limits:
+      memory: 512Mi
+  cpustress-node12-1024mb:
+    lang: node12
+    handler: ./cpustress
+    image: nropatas/faastest-cpustress-openfaas-node12
+    limits:
+      memory: 1024Mi
+  cpustress-node12-2048mb:
+    lang: node12
+    handler: ./cpustress
+    image: nropatas/faastest-cpustress-openfaas-node12
+    limits:
+      memory: 2048Mi

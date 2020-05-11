@@ -1,4 +1,4 @@
-const url = require('url')
+const url = require('url');
 
 const wait = ms => new Promise((r, j) => setTimeout(r, ms));
 

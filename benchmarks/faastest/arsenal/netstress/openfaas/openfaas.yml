@@ -1,0 +1,34 @@
+version: 1.0
+provider:
+  name: openfaas
+functions:
+  netstress-node12-128mb:
+    lang: node12
+    handler: ./netstress
+    image: nropatas/faastest-netstress-openfaas-node12
+    limits:
+      memory: 128Mi
+  netstress-node12-256mb:
+    lang: node12
+    handler: ./netstress
+    image: nropatas/faastest-netstress-openfaas-node12
+    limits:
+      memory: 256Mi
+  netstress-node12-512mb:
+    lang: node12
+    handler: ./netstress
+    image: nropatas/faastest-netstress-openfaas-node12
+    limits:
+      memory: 512Mi
+  netstress-node12-1024mb:
+    lang: node12
+    handler: ./netstress
+    image: nropatas/faastest-netstress-openfaas-node12
+    limits:
+      memory: 1024Mi
+  netstress-node12-2048mb:
+    lang: node12
+    handler: ./netstress
+    image: nropatas/faastest-netstress-openfaas-node12
+    limits:
+      memory: 2048Mi
