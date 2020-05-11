@@ -13,6 +13,8 @@ functions:
     #   memory: 20Mi
       cpu: 10m
     labels:
+      # com.openfaas.scale.min: 2 # Default: 1
+      # com.openfaas.scale.max: 50 # Default: 20
       com.openfaas.scale.factor: 0 # Needed when using HPA
     autoscaling:
       min: 1

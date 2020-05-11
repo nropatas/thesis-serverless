@@ -10,6 +10,8 @@ functions:
       function_memory_size: "128"
     limits:
       memory: 128Mi
+    labels:
+      com.openfaas.scale.max: 50
   memstress-node12-256mb:
     lang: node12
     handler: ./memstress
@@ -18,6 +20,8 @@ functions:
       function_memory_size: "256"
     limits:
       memory: 256Mi
+    labels:
+      com.openfaas.scale.max: 50
   memstress-node12-512mb:
     lang: node12
     handler: ./memstress
@@ -26,6 +30,8 @@ functions:
       function_memory_size: "512"
     limits:
       memory: 512Mi
+    labels:
+      com.openfaas.scale.max: 50
   memstress-node12-1024mb:
     lang: node12
     handler: ./memstress
@@ -34,6 +40,8 @@ functions:
       function_memory_size: "1024"
     limits:
       memory: 1024Mi
+    labels:
+      com.openfaas.scale.max: 50
   memstress-node12-2048mb:
     lang: node12
     handler: ./memstress
@@ -42,3 +50,5 @@ functions:
       function_memory_size: "2048"
     limits:
       memory: 2048Mi
+    labels:
+      com.openfaas.scale.max: 50
