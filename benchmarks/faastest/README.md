@@ -38,6 +38,7 @@ Follow these steps before building `faasbenchmark` Docker image.
     # OpenFaaS
     # Run this and update `openfaas.yml` with the correct image tag
     faas-cli build -f openfaas.yml
+    faas-cli push -f openfaas.yml
     ```
 
 Build `faasbenchmark` by running:

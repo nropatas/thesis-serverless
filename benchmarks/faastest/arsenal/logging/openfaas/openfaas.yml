@@ -1,0 +1,34 @@
+version: 1.0
+provider:
+  name: openfaas
+functions:
+  logging-node12-128mb:
+    lang: node12
+    handler: ./logging
+    image: nropatas/faastest-logging-openfaas-node12
+    limits:
+      memory: 128Mi
+  logging-node12-256mb:
+    lang: node12
+    handler: ./logging
+    image: nropatas/faastest-logging-openfaas-node12
+    limits:
+      memory: 256Mi
+  logging-node12-512mb:
+    lang: node12
+    handler: ./logging
+    image: nropatas/faastest-logging-openfaas-node12
+    limits:
+      memory: 512Mi
+  logging-node12-1024mb:
+    lang: node12
+    handler: ./logging
+    image: nropatas/faastest-logging-openfaas-node12
+    limits:
+      memory: 1024Mi
+  logging-node12-2048mb:
+    lang: node12
+    handler: ./logging
+    image: nropatas/faastest-logging-openfaas-node12
+    limits:
+      memory: 2048Mi

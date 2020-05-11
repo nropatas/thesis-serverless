@@ -1,0 +1,61 @@
+envs:
+  node:
+    env:
+      name: faastest-memstress
+      image: fission/node-env
+
+    functions:
+      memstress-node-128mb:
+        name: memstress-node-128mb
+        handler: memstress.js
+        mincpu: 1
+        maxcpu: 200
+        minmemory: 1
+        maxmemory: 128
+        minscale: 0
+        maxscale: 50
+        targetcpu: 80 # Default: 80
+
+      memstress-node-256mb:
+        name: memstress-node-256mb
+        handler: memstress.js
+        mincpu: 1
+        maxcpu: 200
+        minmemory: 1
+        maxmemory: 256
+        minscale: 0
+        maxscale: 50
+        targetcpu: 80 # Default: 80
+
+      memstress-node-512mb:
+        name: memstress-node-512mb
+        handler: memstress.js
+        mincpu: 1
+        maxcpu: 200
+        minmemory: 1
+        maxmemory: 512
+        minscale: 0
+        maxscale: 50
+        targetcpu: 80 # Default: 80
+
+      memstress-node-1024mb:
+        name: memstress-node-1024mb
+        handler: memstress.js
+        mincpu: 1
+        maxcpu: 200
+        minmemory: 1
+        maxmemory: 1024
+        minscale: 0
+        maxscale: 50
+        targetcpu: 80 # Default: 80
+
+      memstress-node-2048mb:
+        name: memstress-node-2048mb
+        handler: memstress.js
+        mincpu: 1
+        maxcpu: 200
+        minmemory: 1
+        maxmemory: 2048
+        minscale: 0
+        maxscale: 50
+        targetcpu: 80 # Default: 80

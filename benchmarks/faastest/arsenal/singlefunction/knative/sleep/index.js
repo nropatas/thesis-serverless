@@ -43,7 +43,7 @@ app.post('/', async (req, res) => {
     if (params.error) {
         res.json({
             error: params.error,
-        })
+        });
         return;
     }
 
