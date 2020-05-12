@@ -1,30 +1,30 @@
 #!/bin/sh
 
 deploy() {
-  ./setup.sh knative -r
   ./setup.sh openfaas -r
   ./setup.sh openwhisk -r
   ./setup.sh kubeless -r
   ./setup.sh fission -r
+  ./setup.sh knative -r
 
   export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_knative"
   echo "Knative:"
   kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
   export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_openfaas"
-  echo "OpenFaaS:"
+  echo "\nOpenFaaS:"
   kubectl get svc -n openfaas gateway-external -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
   export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_openwhisk"
-  echo "OpenWhisk:"
+  echo "\nOpenWhisk:"
   kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
   export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_kubeless"
-  echo "Kubeless:"
+  echo "\nKubeless:"
   kubectl get svc nginx-ingress-controller -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
   
   export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_fission"
-  echo "Fission:"
+  echo "\nFission:"
   kubectl get svc -n fission router -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 }
 
@@ -36,7 +36,7 @@ remove() {
   ./setup.sh fission -r -d
 }
 
-if [ $1 = "-d" ]
+if [[ $1 = "-d" ]]
 then
   remove
 else
