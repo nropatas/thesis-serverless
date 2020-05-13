@@ -29,6 +29,7 @@ do
 
   if (( i < iter ))
   then
+    echo "$i of $iter done!"
     echo "Sleeping for $interval..."
     sleep $interval
   fi
