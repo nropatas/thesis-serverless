@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 cd results
 
 for test in *
@@ -12,6 +14,7 @@ do
     
     for result in *
     do
+      echo "$test/$provider/$result"
       mv $result/*/*/result.json ./$result.json
     done
 

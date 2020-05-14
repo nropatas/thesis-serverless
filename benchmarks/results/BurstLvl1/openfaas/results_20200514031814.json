@@ -1,0 +1,833 @@
+{
+	"provider": "openfaas",
+	"testName": "BurstLvl1",
+	"testDescription": "send a burst of 100 invocations to a single function",
+	"stackDescription": "this stack contains a single sleep function",
+	"httpConfig": {
+		"sleepTime": 500000000,
+		"hook": "TLSHandshakeDone",
+		"queryParams": {
+			"sleep": [
+				"500"
+			]
+		},
+		"headers": {},
+		"duration": 0,
+		"requestDelay": 0,
+		"concurrencyLimit": 100,
+		"body": "",
+		"testType": "ConcurrentRequestsSyncedOnce",
+		"concurrentGraph": null,
+		"hitsGraph": null
+	},
+	"functions": [
+		{
+			"functionName": "sleep-node12-128mb",
+			"description": "",
+			"runtime": "node12",
+			"memorySize": "128Mi",
+			"results": [
+				{
+					"id": 19,
+					"invocationOverhead": 56.460172,
+					"duration": 0.708317,
+					"responseTime": 0.154462,
+					"reused": false,
+					"failed": false
+				},
+				{
+					"id": 23,
+					"invocationOverhead": 54.176168,
+					"duration": 5.009281,
+					"responseTime": 0.064868,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 21,
+					"invocationOverhead": 54.954075,
+					"duration": 5.224072,
+					"responseTime": 0.104209,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 18,
+					"invocationOverhead": 55.869335,
+					"duration": 5.378141,
+					"responseTime": 0.145706,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 22,
+					"invocationOverhead": 56.890825,
+					"duration": 5.749892,
+					"responseTime": 0.066715,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 59,
+					"invocationOverhead": 61.274054,
+					"duration": 4.662752,
+					"responseTime": 0.103491,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 20,
+					"invocationOverhead": 57.41037,
+					"duration": 7.321274,
+					"responseTime": 0.10056,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 54,
+					"invocationOverhead": 61.30126,
+					"duration": 6.852874,
+					"responseTime": 0.102558,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 24,
+					"invocationOverhead": 183.043422,
+					"duration": 0.886722,
+					"responseTime": 0.108087,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 25,
+					"invocationOverhead": 377.118728,
+					"duration": 1.024854,
+					"responseTime": 0.107466,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 27,
+					"invocationOverhead": 572.488276,
+					"duration": 0.16019,
+					"responseTime": 0.106783,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 37,
+					"invocationOverhead": 773.456845,
+					"duration": -0.202823,
+					"responseTime": 0.105997,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 53,
+					"invocationOverhead": 974.589005,
+					"duration": 0.192834,
+					"responseTime": 0.105967,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 29,
+					"invocationOverhead": 1176.229946,
+					"duration": -0.060391,
+					"responseTime": 0.113316,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 28,
+					"invocationOverhead": 1373.030352,
+					"duration": 0.433946,
+					"responseTime": 0.100069,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 61,
+					"invocationOverhead": 1574.836847,
+					"duration": 0.341142,
+					"responseTime": 0.105166,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 30,
+					"invocationOverhead": 1772.697386,
+					"duration": 0.321936,
+					"responseTime": 0.113565,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 60,
+					"invocationOverhead": 1974.585174,
+					"duration": 0.649758,
+					"responseTime": 0.122209,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 57,
+					"invocationOverhead": 2174.384044,
+					"duration": 0.631677,
+					"responseTime": 0.101286,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 31,
+					"invocationOverhead": 2373.373707,
+					"duration": 0.26691,
+					"responseTime": 0.101311,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 58,
+					"invocationOverhead": 2574.409249,
+					"duration": 0.248931,
+					"responseTime": 0.10514,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 51,
+					"invocationOverhead": 2773.947416,
+					"duration": 0.428771,
+					"responseTime": 0.105877,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 32,
+					"invocationOverhead": 2978.963886,
+					"duration": 0.620695,
+					"responseTime": 0.117318,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 52,
+					"invocationOverhead": 3174.291609,
+					"duration": 0.08417,
+					"responseTime": 0.105946,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 55,
+					"invocationOverhead": 3374.32098,
+					"duration": 0.478547,
+					"responseTime": 0.110251,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 34,
+					"invocationOverhead": 3576.590498,
+					"duration": 0.888947,
+					"responseTime": 0.109268,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 56,
+					"invocationOverhead": 3774.492885,
+					"duration": -0.155989,
+					"responseTime": 0.108439,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 35,
+					"invocationOverhead": 3974.21258,
+					"duration": 0.283121,
+					"responseTime": 0.111121,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 63,
+					"invocationOverhead": 4178.264627,
+					"duration": 0.710469,
+					"responseTime": 0.116143,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 36,
+					"invocationOverhead": 4376.434568,
+					"duration": 0.2319,
+					"responseTime": 0.114071,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 48,
+					"invocationOverhead": 4573.679327,
+					"duration": 0.390651,
+					"responseTime": 0.103159,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 47,
+					"invocationOverhead": 4773.464584,
+					"duration": 0.058584,
+					"responseTime": 0.106909,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 33,
+					"invocationOverhead": 4973.117912,
+					"duration": 0.389137,
+					"responseTime": 0.10792,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 46,
+					"invocationOverhead": 5173.660415,
+					"duration": 1.072556,
+					"responseTime": 0.15083,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 38,
+					"invocationOverhead": 5373.110112,
+					"duration": -0.00234,
+					"responseTime": 0.102628,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 67,
+					"invocationOverhead": 5577.502152,
+					"duration": 0.157571,
+					"responseTime": 0.103141,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 45,
+					"invocationOverhead": 5778.313794,
+					"duration": 0.240198,
+					"responseTime": 0.141239,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 41,
+					"invocationOverhead": 5973.843118,
+					"duration": 0.339727,
+					"responseTime": 0.100678,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 39,
+					"invocationOverhead": 6173.687652,
+					"duration": 0.158312,
+					"responseTime": 0.110299,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 43,
+					"invocationOverhead": 6373.7061,
+					"duration": 0.441563,
+					"responseTime": 0.095553,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 44,
+					"invocationOverhead": 6573.735689,
+					"duration": 0.503711,
+					"responseTime": 0.104374,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 50,
+					"invocationOverhead": 6773.801505,
+					"duration": 0.081906,
+					"responseTime": 0.113291,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 49,
+					"invocationOverhead": 6974.572818,
+					"duration": 0.070407,
+					"responseTime": 0.125273,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 26,
+					"invocationOverhead": 7172.205037,
+					"duration": 0.719066,
+					"responseTime": 0.10666,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 40,
+					"invocationOverhead": 7373.264139,
+					"duration": 0.691497,
+					"responseTime": 0.11357,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 64,
+					"invocationOverhead": 7574.967726,
+					"duration": -0.006864,
+					"responseTime": 0.1119,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 65,
+					"invocationOverhead": 7774.952399,
+					"duration": 0.582085,
+					"responseTime": 0.104856,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 42,
+					"invocationOverhead": 7973.097988,
+					"duration": 0.662605,
+					"responseTime": 0.10375,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 66,
+					"invocationOverhead": 8175.241989,
+					"duration": -0.151232,
+					"responseTime": 0.107046,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 62,
+					"invocationOverhead": 8374.854475,
+					"duration": 0.136549,
+					"responseTime": 0.113031,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 81,
+					"invocationOverhead": 8565.013349,
+					"duration": 0.61253,
+					"responseTime": 0.104544,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 80,
+					"invocationOverhead": 8764.582857,
+					"duration": 1.130212,
+					"responseTime": 0.110827,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 78,
+					"invocationOverhead": 8965.189088,
+					"duration": 0.169968,
+					"responseTime": 0.104889,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 77,
+					"invocationOverhead": 9165.362385,
+					"duration": 0.127822,
+					"responseTime": 0.123948,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 72,
+					"invocationOverhead": 9364.61874,
+					"duration": 0.825367,
+					"responseTime": 0.107073,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 84,
+					"invocationOverhead": 9564.444184,
+					"duration": 0.170262,
+					"responseTime": 0.105159,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 69,
+					"invocationOverhead": 9764.844275,
+					"duration": 0.230588,
+					"responseTime": 0.110097,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 70,
+					"invocationOverhead": 9964.519624,
+					"duration": 0.199653,
+					"responseTime": 0.105578,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 73,
+					"invocationOverhead": 10164.779692,
+					"duration": 0.470698,
+					"responseTime": 0.105292,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 76,
+					"invocationOverhead": 10364.537425,
+					"duration": 0.715768,
+					"responseTime": 0.103802,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 82,
+					"invocationOverhead": 10565.349432,
+					"duration": 0.102225,
+					"responseTime": 0.105093,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 14,
+					"invocationOverhead": 10766.563219,
+					"duration": 0.008002,
+					"responseTime": 0.139486,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 1,
+					"invocationOverhead": 10966.594377,
+					"duration": 0.39253,
+					"responseTime": 0.108839,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 12,
+					"invocationOverhead": 11174.770411,
+					"duration": 0.684816,
+					"responseTime": 0.108321,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 8,
+					"invocationOverhead": 11370.993226,
+					"duration": 0.555249,
+					"responseTime": 0.103315,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 16,
+					"invocationOverhead": 11571.866289,
+					"duration": 0.530303,
+					"responseTime": 0.107044,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 2,
+					"invocationOverhead": 11767.883537,
+					"duration": 0.38521,
+					"responseTime": 0.105364,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 4,
+					"invocationOverhead": 11968.743495,
+					"duration": 0.209285,
+					"responseTime": 0.103397,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 85,
+					"invocationOverhead": 12165.323041,
+					"duration": 0.2688,
+					"responseTime": 0.101755,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 88,
+					"invocationOverhead": 12365.367182,
+					"duration": 0.562867,
+					"responseTime": 0.106389,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 89,
+					"invocationOverhead": 12565.30722,
+					"duration": 0.470267,
+					"responseTime": 0.105854,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 5,
+					"invocationOverhead": 12769.305243,
+					"duration": 0.46317,
+					"responseTime": 0.104941,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 13,
+					"invocationOverhead": 12971.906876,
+					"duration": 0.578495,
+					"responseTime": 0.105787,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 6,
+					"invocationOverhead": 13169.814761,
+					"duration": 0.154271,
+					"responseTime": 0.105814,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 7,
+					"invocationOverhead": 13370.655278,
+					"duration": 0.305252,
+					"responseTime": 0.103884,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 75,
+					"invocationOverhead": 13565.676484,
+					"duration": 0.600063,
+					"responseTime": 0.120304,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 3,
+					"invocationOverhead": 13768.197572,
+					"duration": 0.612177,
+					"responseTime": 0.107491,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 15,
+					"invocationOverhead": 13971.818335,
+					"duration": 0.217643,
+					"responseTime": 0.104633,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 79,
+					"invocationOverhead": 14165.416389,
+					"duration": 0.234945,
+					"responseTime": 0.10175,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 74,
+					"invocationOverhead": 14364.544315,
+					"duration": 0.548625,
+					"responseTime": 0.110382,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 86,
+					"invocationOverhead": 14565.385674,
+					"duration": 0.358006,
+					"responseTime": 0.112579,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 87,
+					"invocationOverhead": 14765.490614,
+					"duration": 0.235295,
+					"responseTime": 0.103546,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 92,
+					"invocationOverhead": 14964.479605,
+					"duration": 0.222681,
+					"responseTime": 0.109369,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 97,
+					"invocationOverhead": 15166.729227,
+					"duration": 0.480629,
+					"responseTime": 0.198636,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 68,
+					"invocationOverhead": 15366.434317,
+					"duration": 0.625558,
+					"responseTime": 0.121464,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 96,
+					"invocationOverhead": 15564.188654,
+					"duration": 0.536735,
+					"responseTime": 0.099772,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 98,
+					"invocationOverhead": 15764.292834,
+					"duration": 0.285712,
+					"responseTime": 0.213298,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 99,
+					"invocationOverhead": 15964.213529,
+					"duration": 0.575111,
+					"responseTime": 0.103139,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 91,
+					"invocationOverhead": 16166.339355,
+					"duration": 0.373037,
+					"responseTime": 0.110734,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 100,
+					"invocationOverhead": 16364.639886,
+					"duration": -0.014243,
+					"responseTime": 0.17125,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 93,
+					"invocationOverhead": 16566.377158,
+					"duration": 0.210638,
+					"responseTime": 0.104662,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 94,
+					"invocationOverhead": 16764.838465,
+					"duration": 0.529976,
+					"responseTime": 0.104991,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 95,
+					"invocationOverhead": 16963.889962,
+					"duration": 1.018207,
+					"responseTime": 0.166416,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 83,
+					"invocationOverhead": 17165.139664,
+					"duration": 0.235741,
+					"responseTime": 0.101691,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 90,
+					"invocationOverhead": 17365.03795,
+					"duration": 0.120155,
+					"responseTime": 0.136596,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 9,
+					"invocationOverhead": 17571.291978,
+					"duration": 0.654576,
+					"responseTime": 0.104563,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 17,
+					"invocationOverhead": 17772.235268,
+					"duration": 0.28302,
+					"responseTime": 0.116259,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 11,
+					"invocationOverhead": 17971.916237,
+					"duration": 0.111552,
+					"responseTime": 0.090046,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 71,
+					"invocationOverhead": 18164.996827,
+					"duration": 0.419185,
+					"responseTime": 0.123032,
+					"reused": true,
+					"failed": false
+				},
+				{
+					"id": 10,
+					"invocationOverhead": 18371.582147,
+					"duration": 0.771867,
+					"responseTime": 0.137273,
+					"reused": true,
+					"failed": false
+				}
+			]
+		}
+	]
+}
