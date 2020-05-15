@@ -13,6 +13,10 @@ knative() {
   if [ $delete = "false" ]
   then
     echo "Setting up Knative..."
+
+    helm install metrics-server --namespace kube-system stable/metrics-server \
+      --set args="{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP\,ExternalIP\,Hostname}"
+
     kubectl apply -f https://github.com/knative/serving/releases/download/v0.13.0/serving-crds.yaml
     kubectl apply -f https://github.com/knative/serving/releases/download/v0.13.0/serving-core.yaml
     kubectl apply -f clusters/knative/istio-crds.yaml
@@ -27,6 +31,7 @@ knative() {
     kubectl delete -f clusters/knative/istio-crds.yaml
     kubectl delete -f https://github.com/knative/serving/releases/download/v0.13.0/serving-core.yaml
     kubectl delete -f https://github.com/knative/serving/releases/download/v0.13.0/serving-crds.yaml
+    helm uninstall metrics-server -n kube-system
   fi
 }
 
@@ -42,8 +47,10 @@ openfaas() {
   if [ $delete = "false" ]
   then
     echo "Setting up OpenFaaS..."
+
     helm install metrics-server --namespace kube-system stable/metrics-server \
       --set args="{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP\,ExternalIP\,Hostname}"
+
     kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
     kubectl apply -f clusters/openfaas/$config_file
   else
@@ -67,6 +74,9 @@ openwhisk() {
   then
     echo "Setting up OpenWhisk..."
 
+    helm install metrics-server --namespace kube-system stable/metrics-server \
+      --set args="{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP\,ExternalIP\,Hostname}"
+
     kubectl label nodes --all openwhisk-role=invoker
     kubectl create namespace openwhisk
 
@@ -82,6 +92,7 @@ openwhisk() {
     helm uninstall owdev -n openwhisk
     kubectl delete ns openwhisk
     kubectl label nodes --all openwhisk-role-
+    helm uninstall metrics-server -n kube-system
   fi
 }
 
