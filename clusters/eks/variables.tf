@@ -4,7 +4,7 @@ variable "region" {
 }
 
 variable "worker_node_count" {
-  default = 1
+  default = 2
 }
 
 variable "worker_instance_type" {
