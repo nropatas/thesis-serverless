@@ -15,7 +15,7 @@ require (
 	github.com/mitchellh/go-wordwrap v1.0.0 // indirect
 	github.com/nropatas/faastest-stacks v1.10.1
 	github.com/nropatas/httpbench v1.1.1
-	github.com/nropatas/sls v1.2.0
+	github.com/nropatas/sls v1.2.1
 	github.com/nsf/termbox-go v0.0.0-20190325093121-288510b9734e // indirect
 	github.com/nuweba/azure-stack v1.0.0
 	github.com/pkg/errors v0.9.1
