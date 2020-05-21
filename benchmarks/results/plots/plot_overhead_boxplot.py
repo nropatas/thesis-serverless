@@ -31,6 +31,7 @@ test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3",
 
 total_data = {}
 
+# Read data from csv files
 for framework in frameworks:
     filenames = [args.directory + "/" + args.test_name + "_" + framework + "_" + str(i) + ".csv" for i in range(1,args.iterations+1)]
     framework_data = []
@@ -52,7 +53,11 @@ plt.rc('font', family='sans-serif')
 
 s = plt.subplot(1,1,1)
 
-plot_data = [total_data[framework]['invocationOverhead'] for framework in frameworks]
+# Show only successful responses
+plot_data = []
+for framework in frameworks:
+    df = total_data[framework]
+    plot_data.append(df.loc[df['failed'] == False]['invocationOverhead'])
 
 bpl = plt.boxplot(plot_data, widths=0.5, patch_artist=True)
 plt.setp(bpl['boxes'], color='black')
