@@ -66,7 +66,7 @@ function readResults(testName, provider, filename, id) {
     csv.writeToPath(outputFile, rows, { headers: true })
       .on('error', reject)
       .on('finish', () => {
-        // console.log('Wrote ', outputFile);
+        // console.log('Wrote', outputFile);
         resolve();
       });
   });
