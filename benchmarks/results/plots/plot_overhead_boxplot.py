@@ -29,8 +29,8 @@ test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3",
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
               "IncreasingMemLoadLvl1", "IncreasingMemLoadLvl2", "IncreasingMemLoadLvl3"]
 
+print('total data:')
 total_data = {}
-
 # Read data from csv files
 for framework in frameworks:
     filenames = [args.directory + "/" + args.test_name + "_" + framework + "_" + str(i) + ".csv" for i in range(1,args.iterations+1)]
@@ -47,10 +47,13 @@ for framework in frameworks:
     print(framework, len(total_data[framework]))
 
 # Show only successful responses
+print('\nfiltered data:')
 plot_data = []
 for framework in frameworks:
     df = total_data[framework]
-    plot_data.append(df.loc[df['failed'] == False]['invocationOverhead'])
+    successful_req_overheads = df.loc[df['failed'] == False]['invocationOverhead']
+    print(framework, len(successful_req_overheads))
+    plot_data.append(successful_req_overheads)
 
 plt.figure()
 plt.rc('text', usetex=True)

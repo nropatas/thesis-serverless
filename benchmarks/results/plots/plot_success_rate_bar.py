@@ -29,8 +29,8 @@ test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3",
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
               "IncreasingMemLoadLvl1", "IncreasingMemLoadLvl2", "IncreasingMemLoadLvl3"]
 
+print('total data:')
 total_data = {}
-
 # Read data from csv files
 for framework in frameworks:
     filenames = [args.directory + "/" + args.test_name + "_" + framework + "_" + str(i) + ".csv" for i in range(1,args.iterations+1)]
@@ -46,11 +46,13 @@ for framework in frameworks:
     # TODO: Check that all files have consistent number of lines/data 
     print(framework, len(total_data[framework]))
 
+print('\nfiltered data:')
 plot_data = []
 for framework in frameworks:
     df = total_data[framework]
     num_total = df.shape[0]
     num_success = df.loc[df['failed'] == False].shape[0]
+    print(framework, num_success, 'out of', num_total)
     plot_data.append(0 if num_total == 0 else (num_success / num_total) * 100)
 
 plt.figure()

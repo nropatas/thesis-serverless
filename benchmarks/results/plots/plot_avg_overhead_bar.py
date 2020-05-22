@@ -29,8 +29,8 @@ test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3",
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
               "IncreasingMemLoadLvl1", "IncreasingMemLoadLvl2", "IncreasingMemLoadLvl3"]
 
+print('total data:')
 total_data = {}
-
 # Read data from csv files
 for framework in frameworks:
     filenames = [args.directory + "/" + args.test_name + "_" + framework + "_" + str(i) + ".csv" for i in range(1,args.iterations+1)]
@@ -47,12 +47,15 @@ for framework in frameworks:
     print(framework, len(total_data[framework]))
 
 # Show only successful responses
+print('\nfiltered data:')
 cold_start = []
 warm_start = []
 for framework in frameworks:
     df = total_data[framework]
     cold_overheads = df.loc[(df['failed'] == False) & (df['reused'] == False)]['invocationOverhead']
     warm_overheads = df.loc[(df['failed'] == False) & (df['reused'] == True)]['invocationOverhead']
+    print(framework, 'cold', len(cold_overheads))
+    print(framework, 'warm', len(warm_overheads))
     cold_start.append(np.mean(cold_overheads))
     warm_start.append(np.mean(warm_overheads))
 

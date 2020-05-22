@@ -29,8 +29,8 @@ test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3",
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
               "IncreasingMemLoadLvl1", "IncreasingMemLoadLvl2", "IncreasingMemLoadLvl3"]
 
+print('total data:')
 total_data = {}
-
 # Read data from csv files
 for framework in frameworks:
     filenames = [args.directory + "/" + args.test_name + "_" + framework + "_" + str(i) + ".csv" for i in range(1,args.iterations+1)]
@@ -54,6 +54,7 @@ for framework in frameworks:
 mem_limits = list(set(mem_limits))
 mem_limits.sort()
 
+print('\nfiltered data:')
 plot_data = {}
 for framework in frameworks:
     df = total_data[framework]
@@ -63,7 +64,9 @@ for framework in frameworks:
         if key not in plot_data:
             plot_data[key] = []
 
-        avg = np.mean(df.loc[(df['failed'] == False) & (df['memory'] == mem)]['duration'])
+        durations = df.loc[(df['failed'] == False) & (df['memory'] == mem)]['duration']
+        print(framework, key, len(durations))
+        avg = np.mean(durations)
         plot_data[key].append(avg)
 
 plt.figure()
