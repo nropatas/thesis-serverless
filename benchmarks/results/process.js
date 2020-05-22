@@ -51,7 +51,10 @@ function readResults(testName, provider, filename, id) {
   const rows = _.chain(results.functions)
     .flatMap((f) => {
       const memory = getMemory(_.pick(f, ['functionName', 'memorySize']));
-      return _.map(f.results, entry => _.assign({}, entry, { memory }));
+      return _.chain(f.results)
+        .uniqBy('id')
+        .map(entry => _.assign({}, entry, { memory }))
+        .value();
     })
     .value();
 

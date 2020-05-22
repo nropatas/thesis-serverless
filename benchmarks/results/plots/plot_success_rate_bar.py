@@ -22,8 +22,8 @@ parser.add_argument('--test', '-t', dest='test_name', help='Test name for which 
 parser.add_argument('--iterations', '-i', dest='iterations', help='Number of iterations for which plot is to be generated', required=True, type=int)
 args = parser.parse_args()
 
-frameworks = ["aws", "azure"]
-# frameworks = ["knative", "openfaas", "kubeless", "fission"]
+# frameworks = ["aws", "azure"]
+frameworks = ["knative", "openfaas", "kubeless", "fission"]
 test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3", 
               "ConcurrentIncreasingLoadLvl1",  "ConcurrentIncreasingLoadLvl2", "ConcurrentIncreasingLoadLvl3", 
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
@@ -46,46 +46,27 @@ for framework in frameworks:
     # TODO: Check that all files have consistent number of lines/data 
     print(framework, len(total_data[framework]))
 
-# Show only successful responses
 plot_data = []
 for framework in frameworks:
     df = total_data[framework]
-    plot_data.append(df.loc[df['failed'] == False]['invocationOverhead'])
+    num_total = df.shape[0]
+    num_success = df.loc[df['failed'] == False].shape[0]
+    plot_data.append(0 if num_total == 0 else (num_success / num_total) * 100)
 
 plt.figure()
 plt.rc('text', usetex=True)
 plt.rc('font', family='sans-serif')
 
+x = np.arange(len(frameworks))
+width = 0.25
+
 s = plt.subplot(1,1,1)
-
-bpl = plt.boxplot(plot_data, widths=0.5, patch_artist=True)
-plt.setp(bpl['boxes'], color='black')
-plt.setp(bpl['whiskers'], color='black')
-plt.setp(bpl['fliers'], color='black')
-
-for median in bpl['medians']:
-    median.set(color='black', linewidth=1.5)
-
-for patch in bpl['boxes']:
-    patch.set_facecolor(LBLUE)
-
-s.yaxis.grid(True)
-s.xaxis.get_label().set_fontsize(20)
-s.yaxis.get_label().set_fontsize(20)
-
-temp_ticks = []
-for i in s.get_yticks():
-    temp_ticks.append(int(i))
-s.set_yticklabels(temp_ticks)
-
-for tick in s.xaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
-for tick in s.yaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
+s.bar(x, [100] * len(plot_data), width, color='lightgray')
+s.bar(x, plot_data, width)
 
 s.set_xticklabels(frameworks)
-plt.ylabel('Invocation Overhead (ms)')
+s.set_xticks(x)
+plt.ylabel('Success Rate (\%)')
 
 plt.tight_layout()
 plt.show()
-#plt.savefig("boxplot-response-time.pdf")

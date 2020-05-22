@@ -22,8 +22,8 @@ parser.add_argument('--test', '-t', dest='test_name', help='Test name for which 
 parser.add_argument('--iterations', '-i', dest='iterations', help='Number of iterations for which plot is to be generated', required=True, type=int)
 args = parser.parse_args()
 
-frameworks = ["aws", "azure"]
-# frameworks = ["knative", "openfaas", "kubeless", "fission"]
+# frameworks = ["aws", "azure"]
+frameworks = ["knative", "openfaas", "kubeless", "fission"]
 test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3", 
               "ConcurrentIncreasingLoadLvl1",  "ConcurrentIncreasingLoadLvl2", "ConcurrentIncreasingLoadLvl3", 
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
@@ -46,11 +46,25 @@ for framework in frameworks:
     # TODO: Check that all files have consistent number of lines/data 
     print(framework, len(total_data[framework]))
 
-# Show only successful responses
-plot_data = []
+mem_limits = []
 for framework in frameworks:
     df = total_data[framework]
-    plot_data.append(df.loc[df['failed'] == False]['invocationOverhead'])
+    mem_limits = mem_limits + list(df.memory.unique())
+
+mem_limits = list(set(mem_limits))
+mem_limits.sort()
+
+plot_data = {}
+for framework in frameworks:
+    df = total_data[framework]
+
+    for mem in mem_limits:
+        key = '{} MB'.format(mem)
+        if key not in plot_data:
+            plot_data[key] = []
+
+        avg = np.mean(df.loc[(df['failed'] == False) & (df['memory'] == mem)]['duration'])
+        plot_data[key].append(avg)
 
 plt.figure()
 plt.rc('text', usetex=True)
@@ -58,33 +72,19 @@ plt.rc('font', family='sans-serif')
 
 s = plt.subplot(1,1,1)
 
-bpl = plt.boxplot(plot_data, widths=0.5, patch_artist=True)
-plt.setp(bpl['boxes'], color='black')
-plt.setp(bpl['whiskers'], color='black')
-plt.setp(bpl['fliers'], color='black')
+x = np.arange(len(frameworks))
+width = 0.15
 
-for median in bpl['medians']:
-    median.set(color='black', linewidth=1.5)
-
-for patch in bpl['boxes']:
-    patch.set_facecolor(LBLUE)
-
-s.yaxis.grid(True)
-s.xaxis.get_label().set_fontsize(20)
-s.yaxis.get_label().set_fontsize(20)
-
-temp_ticks = []
-for i in s.get_yticks():
-    temp_ticks.append(int(i))
-s.set_yticklabels(temp_ticks)
-
-for tick in s.xaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
-for tick in s.yaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
+i = 0
+for label, v in plot_data.items():
+    pos = x - (width * len(mem_limits)) / 2 + width * i
+    s.bar(pos, v, width, label=label)
+    i += 1
 
 s.set_xticklabels(frameworks)
-plt.ylabel('Invocation Overhead (ms)')
+s.set_xticks(x - width / 2)
+plt.ylabel('Average Function Duration (ms)')
+plt.legend()
 
 plt.tight_layout()
 plt.show()

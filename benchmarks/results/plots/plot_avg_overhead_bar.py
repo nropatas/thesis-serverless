@@ -47,45 +47,30 @@ for framework in frameworks:
     print(framework, len(total_data[framework]))
 
 # Show only successful responses
-plot_data = []
+cold_start = []
+warm_start = []
 for framework in frameworks:
     df = total_data[framework]
-    plot_data.append(df.loc[df['failed'] == False]['invocationOverhead'])
+    cold_overheads = df.loc[(df['failed'] == False) & (df['reused'] == False)]['invocationOverhead']
+    warm_overheads = df.loc[(df['failed'] == False) & (df['reused'] == True)]['invocationOverhead']
+    cold_start.append(np.mean(cold_overheads))
+    warm_start.append(np.mean(warm_overheads))
 
 plt.figure()
 plt.rc('text', usetex=True)
 plt.rc('font', family='sans-serif')
 
+x = np.arange(len(frameworks))
+width = 0.25
+
 s = plt.subplot(1,1,1)
-
-bpl = plt.boxplot(plot_data, widths=0.5, patch_artist=True)
-plt.setp(bpl['boxes'], color='black')
-plt.setp(bpl['whiskers'], color='black')
-plt.setp(bpl['fliers'], color='black')
-
-for median in bpl['medians']:
-    median.set(color='black', linewidth=1.5)
-
-for patch in bpl['boxes']:
-    patch.set_facecolor(LBLUE)
-
-s.yaxis.grid(True)
-s.xaxis.get_label().set_fontsize(20)
-s.yaxis.get_label().set_fontsize(20)
-
-temp_ticks = []
-for i in s.get_yticks():
-    temp_ticks.append(int(i))
-s.set_yticklabels(temp_ticks)
-
-for tick in s.xaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
-for tick in s.yaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
+s.bar(x - width / 2, cold_start, width, label='Cold Start')
+s.bar(x + width / 2, warm_start, width, label='Warm Start')
 
 s.set_xticklabels(frameworks)
-plt.ylabel('Invocation Overhead (ms)')
+s.set_xticks(x)
+plt.ylabel('Average Invocation Overhead (ms)')
+plt.legend()
 
 plt.tight_layout()
 plt.show()
-#plt.savefig("boxplot-response-time.pdf")
