@@ -23,8 +23,8 @@ parser.add_argument('--iterations', '-i', dest='iterations', help='Number of ite
 parser.add_argument('--single-iteration', '-s', dest='selected_iter', help='Specify an iteration for which plot is generated', required=False, type=int)
 args = parser.parse_args()
 
-# frameworks = ["aws", "azure"]
-frameworks = ["knative", "openfaas", "kubeless", "fission"]
+frameworks = ["aws", "azure"]
+# frameworks = ["knative", "openfaas", "kubeless", "fission"]
 test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3", 
               "ConcurrentIncreasingLoadLvl1",  "ConcurrentIncreasingLoadLvl2", "ConcurrentIncreasingLoadLvl3", 
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
@@ -66,7 +66,7 @@ for framework in frameworks:
         df = total_data[framework]['all']
 
     for mem in mem_limits:
-        key = '{} MB'.format(mem)
+        key = 'Dynamic' if mem == 0 else '{} MB'.format(mem)
         if key not in plot_data:
             plot_data[key] = []
 
@@ -91,7 +91,7 @@ for label, v in plot_data.items():
     i += 1
 
 s.set_xticklabels(frameworks)
-s.set_xticks(x - width / 2)
+s.set_xticks(x)
 plt.ylabel('Average Function Duration (ms)')
 plt.legend()
 

@@ -32,7 +32,11 @@ const PROVIDERS = [
 
 const OUTPUT_DIR = 'outputs';
 
-function getMemory(f) {
+function getMemory(provider, f) {
+  if (provider == 'azure') {
+    return 0;
+  }
+
   let memory = f.memorySize;
 
   if (_.isEmpty(memory)) {
@@ -50,7 +54,7 @@ function readResults(testName, provider, filename, id) {
   const results = JSON.parse(rawData);
   const rows = _.chain(results.functions)
     .flatMap((f) => {
-      const memory = getMemory(_.pick(f, ['functionName', 'memorySize']));
+      const memory = getMemory(provider, _.pick(f, ['functionName', 'memorySize']));
       return _.chain(f.results)
         .uniqBy('id')
         .map(entry => _.assign({}, entry, { memory }))
