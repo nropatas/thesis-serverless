@@ -41,19 +41,33 @@ for framework in frameworks:
             exit(1)
         framework_data.append(pd.read_csv(file))
 
-    total_data[framework] = pd.concat(framework_data)
+    total_data[framework] = {}
+    total_data[framework]['all'] = pd.concat(framework_data)
+    total_data[framework]['iterations'] = framework_data
 
     # TODO: Check that all files have consistent number of lines/data 
-    print(framework, len(total_data[framework]))
+    print(framework, len(total_data[framework]['all']))
 
 print('\nfiltered data:')
 plot_data = []
 for framework in frameworks:
-    df = total_data[framework]
+    df = total_data[framework]['all']
     num_total = df.shape[0]
     num_success = df.loc[df['failed'] == False].shape[0]
     print(framework, num_success, 'out of', num_total)
     plot_data.append(0 if num_total == 0 else (num_success / num_total) * 100)
+
+# Data for a table
+print('')
+for i, framework in enumerate(frameworks):
+    s = framework
+    for df in total_data[framework]['iterations']:
+        num_total = df.shape[0]
+        num_success = df.loc[df['failed'] == False].shape[0]
+        percent = 0 if num_total == 0 else (num_success / num_total) * 100
+        s += '\t{:.2f}%'.format(percent)
+    s += '\t{:.2f}%'.format(plot_data[i])
+    print(s)
 
 plt.figure()
 plt.rc('text', usetex=True)
