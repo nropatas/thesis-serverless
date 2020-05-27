@@ -80,5 +80,5 @@ func (kubeless *Kubeless) NewFunctionRequest(stack stack.Stack, function stack.F
 }
 
 func (kubeless *Kubeless) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
-	return syncedtrace.TLSHandshakeDone
+	return syncedtrace.ConnectDone
 }

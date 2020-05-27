@@ -10,8 +10,8 @@ import (
 	"path"
 
 	"github.com/golang/gddo/httputil/header"
-	"github.com/nuweba/faasbenchmark/stack"
 	"github.com/nropatas/httpbench/syncedtrace"
+	"github.com/nuweba/faasbenchmark/stack"
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 )
@@ -83,5 +83,5 @@ func (openfaas *OpenFaaS) NewFunctionRequest(stack stack.Stack, function stack.F
 }
 
 func (openfaas *OpenFaaS) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
-	return syncedtrace.TLSHandshakeDone
+	return syncedtrace.ConnectDone
 }

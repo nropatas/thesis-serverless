@@ -79,5 +79,5 @@ func (knative *Knative) NewFunctionRequest(stack stack.Stack, function stack.Fun
 }
 
 func (knative *Knative) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
-	return syncedtrace.TLSHandshakeDone
+	return syncedtrace.ConnectDone
 }

@@ -79,5 +79,5 @@ func (fission *Fission) NewFunctionRequest(stack stack.Stack, function stack.Fun
 }
 
 func (fission *Fission) HttpInvocationTriggerStage() syncedtrace.TraceHookType {
-	return syncedtrace.TLSHandshakeDone
+	return syncedtrace.ConnectDone
 }
