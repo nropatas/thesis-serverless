@@ -2,7 +2,7 @@
 
 deploy() {
   ./setup.sh openfaas -r
-  ./setup.sh openwhisk -r
+  # ./setup.sh openwhisk -r
   ./setup.sh kubeless -r
   ./setup.sh fission -r
   ./setup.sh knative -r
@@ -15,9 +15,9 @@ deploy() {
   echo "\nOpenFaaS:"
   kubectl get svc -n openfaas gateway-external -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
-  export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_openwhisk"
-  echo "\nOpenWhisk:"
-  kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+  # export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_openwhisk"
+  # echo "\nOpenWhisk:"
+  # kubectl get svc -n openwhisk owdev-nginx -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
 
   export KUBECONFIG="$(pwd)/clusters/eks/kubeconfig_kubeless"
   echo "\nKubeless:"
@@ -31,7 +31,7 @@ deploy() {
 remove() {
   ./setup.sh knative -r -d
   ./setup.sh openfaas -r -d
-  ./setup.sh openwhisk -r -d
+  # ./setup.sh openwhisk -r -d
   ./setup.sh kubeless -r -d
   ./setup.sh fission -r -d
 }

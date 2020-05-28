@@ -11,6 +11,7 @@ do
   for test in ${tests[*]}
   do
     echo "Testing $provider $test"
+    # export KUBECONFIG=/app/kubeconfigs/kubeconfig_$provider
     ./runtest.sh "./faasbenchmark run $provider $test -r results/$test/$provider" $iterations $interval
     echo "$provider $test done!"
     echo "Sleeping for $interval"
