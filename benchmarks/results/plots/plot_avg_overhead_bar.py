@@ -51,8 +51,8 @@ for framework in frameworks:
 
 # Show only successful responses
 print('\nfiltered data:')
-cold_start = []
-warm_start = []
+cold_start = {'avg': [], 'std': []}
+warm_start = {'avg': [], 'std': []}
 for framework in frameworks:
     if args.selected_iter and args.selected_iter > 0 and args.selected_iter <= args.iterations:
         df = total_data[framework]['iterations'][args.selected_iter - 1]
@@ -63,8 +63,10 @@ for framework in frameworks:
     warm_overheads = df.loc[(df['failed'] == False) & (df['reused'] == True)]['invocationOverhead']
     print(framework, 'cold', len(cold_overheads))
     print(framework, 'warm', len(warm_overheads))
-    cold_start.append(np.mean(cold_overheads))
-    warm_start.append(np.mean(warm_overheads))
+    cold_start['avg'].append(np.mean(cold_overheads))
+    cold_start['std'].append(np.std(cold_overheads))
+    warm_start['avg'].append(np.mean(warm_overheads))
+    warm_start['std'].append(np.std(warm_overheads))
 
 plt.figure()
 plt.rc('text', usetex=True)
@@ -74,8 +76,8 @@ x = np.arange(len(frameworks))
 width = 0.25
 
 s = plt.subplot(1,1,1)
-s.bar(x - width / 2, cold_start, width, label='Cold Start')
-s.bar(x + width / 2, warm_start, width, label='Warm Start')
+s.bar(x - width / 2, cold_start['avg'], width, label='Cold Start', yerr=cold_start['std'])
+s.bar(x + width / 2, warm_start['avg'], width, label='Warm Start', yerr=warm_start['std'])
 
 s.set_xticklabels(frameworks)
 s.set_xticks(x)

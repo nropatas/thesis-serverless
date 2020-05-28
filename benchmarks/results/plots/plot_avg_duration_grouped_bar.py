@@ -68,12 +68,17 @@ for framework in frameworks:
     for mem in mem_limits:
         key = 'Dynamic' if mem == 0 else '{} MB'.format(mem)
         if key not in plot_data:
-            plot_data[key] = []
+            plot_data[key] = {
+                'avg': [],
+                'std': []
+            }
 
         durations = df.loc[(df['failed'] == False) & (df['memory'] == mem)]['duration']
         print(framework, key, len(durations))
         avg = np.mean(durations)
-        plot_data[key].append(avg)
+        std = np.std(durations)
+        plot_data[key]['avg'].append(avg)
+        plot_data[key]['std'].append(std)
 
 plt.figure()
 plt.rc('text', usetex=True)
@@ -87,7 +92,7 @@ width = 0.15
 i = 0
 for label, v in plot_data.items():
     pos = x - (width * len(mem_limits)) / 2 + width * i
-    s.bar(pos, v, width, label=label)
+    s.bar(pos, v['avg'], width, label=label, yerr=v['std'])
     i += 1
 
 s.set_xticklabels(frameworks)
