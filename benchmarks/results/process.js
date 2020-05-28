@@ -57,7 +57,10 @@ function readResults(testName, provider, filename, id) {
       const memory = getMemory(provider, _.pick(f, ['functionName', 'memorySize']));
       return _.chain(f.results)
         .uniqBy('id')
-        .map(entry => _.assign({}, entry, { memory }))
+        .map(entry => _.assign({}, entry, {
+          duration: entry.duration < 0 ? 0 : entry.duration,
+          memory,
+        }))
         .value();
     })
     .value();
