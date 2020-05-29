@@ -31,6 +31,7 @@ const PROVIDERS = [
 ];
 
 const OUTPUT_DIR = 'outputs';
+const NUM_ITERS = 1 // TODO (Sam): Set back to 10
 
 function getMemory(provider, f) {
   if (provider == 'azure') {
@@ -86,10 +87,10 @@ async function readProvider(testName, provider) {
   const pathToProvider = path.join(testName, provider);
   const filenames = fs.readdirSync(pathToProvider);
 
-  // Read only the last 10 results
+  // Read only the last NUM_ITERS results
   const filteredFilenames = _.chain(filenames.sort())
     .filter(filename => _.startsWith(filename, 'results'))
-    .takeRight(10)
+    .takeRight(NUM_ITERS)
     .value();
 
   await Bluebird.map(filteredFilenames, (filename, i) => {
