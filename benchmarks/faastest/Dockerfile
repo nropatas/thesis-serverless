@@ -8,7 +8,7 @@ RUN go build -o faasbenchmark-tui tui.go
 
 FROM node:13.8.0-stretch
 
-RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg wget software-properties-common gcc zip unzip python3 python3-pip
+RUN apt-get update && apt-get install -y ca-certificates curl apt-transport-https lsb-release gnupg wget software-properties-common gcc zip unzip python3 python3-pip vim
 
 # Install kubectl and aws-iam-authenticator
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && \
