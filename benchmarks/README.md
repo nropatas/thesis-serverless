@@ -2,6 +2,8 @@
 
 ## FaaSTest by Nuweba
 
+\* The code has been moved to a [separate repository](https://github.com/nropatas/faasbenchmark).
+
 If you want to run FaaSTest on Azure Functions, do the followings.
 
 1. Create an SSH key pair.
