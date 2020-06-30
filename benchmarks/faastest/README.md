@@ -59,6 +59,10 @@ Inside the container, follow the required steps described below and run tests. T
 ./faasbenchmark run knative BurstLvl1 -c config.json
 ```
 
+Example of the config file:
+
+TBA
+
 ## Platform Credentials
 
 These need to be run before running tests on the corresponding platforms.
