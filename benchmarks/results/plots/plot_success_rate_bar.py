@@ -23,11 +23,15 @@ parser.add_argument('--iterations', '-i', dest='iterations', help='Number of ite
 args = parser.parse_args()
 
 # frameworks = ["aws", "azure"]
-frameworks = ["knative", "openfaas", "kubeless", "fission"]
+# frameworks = ["knative", "openfaas", "kubeless", "fission"]
+# frameworks = ["kubeless", "fission"]
+frameworks = ["aws", "azure", "knative", "openfaas", "kubeless", "fission"]
 test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3", 
               "ConcurrentIncreasingLoadLvl1",  "ConcurrentIncreasingLoadLvl2", "ConcurrentIncreasingLoadLvl3", 
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
               "IncreasingMemLoadLvl1", "IncreasingMemLoadLvl2", "IncreasingMemLoadLvl3"]
+# For getting success rates of the particular memory allocation
+# memory = 2048
 
 print('total data:')
 total_data = {}
@@ -52,8 +56,12 @@ print('\nfiltered data:')
 plot_data = []
 for framework in frameworks:
     df = total_data[framework]['all']
-    num_total = df.shape[0]
-    num_success = df.loc[df['failed'] == False].shape[0]
+    if 'memory' in globals():
+        num_total = df.loc[df['memory'] == memory].shape[0]
+        num_success = df.loc[(df['failed'] == False) & (df['memory'] == memory)].shape[0]
+    else:
+        num_total = df.shape[0]
+        num_success = df.loc[df['failed'] == False].shape[0]
     print(framework, num_success, 'out of', num_total)
     plot_data.append(0 if num_total == 0 else (num_success / num_total) * 100)
 
@@ -61,12 +69,18 @@ for framework in frameworks:
 print('')
 for i, framework in enumerate(frameworks):
     s = framework
+    percents = []
     for df in total_data[framework]['iterations']:
-        num_total = df.shape[0]
-        num_success = df.loc[df['failed'] == False].shape[0]
+        if 'memory' in globals():
+            num_total = df.loc[df['memory'] == memory].shape[0]
+            num_success = df.loc[(df['failed'] == False) & (df['memory'] == memory)].shape[0]
+        else:
+            num_total = df.shape[0]
+            num_success = df.loc[df['failed'] == False].shape[0]
         percent = 0 if num_total == 0 else (num_success / num_total) * 100
-        s += '\t{:.2f}%'.format(percent)
-    s += '\t{:.2f}%'.format(plot_data[i])
+        percents.append(percent)
+        s += ' & {:.1f}'.format(percent)
+    s += ' & {:.1f}, s.d. = {:.1f}'.format(plot_data[i], np.std(percents))
     print(s)
 
 plt.figure()

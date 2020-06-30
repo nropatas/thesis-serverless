@@ -25,6 +25,7 @@ args = parser.parse_args()
 
 frameworks = ["aws", "azure"]
 # frameworks = ["knative", "openfaas", "kubeless", "fission"]
+# frameworks = ["kubeless", "fission"]
 test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3", 
               "ConcurrentIncreasingLoadLvl1",  "ConcurrentIncreasingLoadLvl2", "ConcurrentIncreasingLoadLvl3", 
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",

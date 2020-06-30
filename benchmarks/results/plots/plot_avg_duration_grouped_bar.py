@@ -102,4 +102,3 @@ plt.legend()
 
 plt.tight_layout()
 plt.show()
-#plt.savefig("boxplot-response-time.pdf")

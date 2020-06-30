@@ -3,6 +3,7 @@ import argparse
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as font_manager
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib.backends.backend_pdf import PdfPages
 
@@ -24,12 +25,18 @@ parser.add_argument('--iterations', '-i', dest='iterations', help='Number of ite
 parser.add_argument('--single-iteration', '-s', dest='selected_iter', help='Specify an iteration for which plot is generated', required=False, type=int)
 args = parser.parse_args()
 
-frameworks = ["AWS", "Azure"]
-# frameworks = ["Knative", "OpenFaaS", "Kubeless", "Fission"]
+# frameworks = ["AWS", "Azure"]
+frameworks = ["Knative", "OpenFaaS", "Kubeless", "Fission"]
 test_names = ["BurstLvl1", "BurstLvl2", "BurstLvl3", 
               "ConcurrentIncreasingLoadLvl1",  "ConcurrentIncreasingLoadLvl2", "ConcurrentIncreasingLoadLvl3", 
               "IncreasingCPULoadLvl1", "IncreasingCPULoadLvl2", "IncreasingCPULoadLvl3",
               "IncreasingMemLoadLvl1", "IncreasingMemLoadLvl2", "IncreasingMemLoadLvl3"]
+ybreak_start = 2001
+ybreak_end = 4000
+yscale = 1000
+yscale2 = 1000
+ymin = 0
+ymax = 6001
 
 print('total data:')
 total_data = {}
@@ -68,13 +75,18 @@ for framework in frameworks:
 fig = plt.figure()
 plt.rc('text', usetex=True)
 plt.rc('font', family='sans-serif')
+plt.rcParams['font.size'] = 20
 
-s = plt.subplot(1,1,1)
+s, (ax1, ax2)  = plt.subplots(2, 1, sharex=True)
 
-bpl = plt.boxplot(plot_data, widths=0.5, patch_artist=True)
-plt.setp(bpl['boxes'], color='black')
-plt.setp(bpl['whiskers'], color='black')
-plt.setp(bpl['fliers'], color='black')
+ax1.boxplot(plot_data, widths=0.5, patch_artist=True)
+bpl = ax2.boxplot(plot_data, widths=0.5, patch_artist=True)
+ax1.set_ylim(ymin=ybreak_end)
+ax2.set_ylim(ymax=ybreak_start)
+ax1.spines['bottom'].set_visible(False)
+ax2.spines['top'].set_visible(False)
+ax1.tick_params(axis='x', bottom=False, top=False)
+ax2.xaxis.tick_bottom()
 
 for median in bpl['medians']:
     median.set(color='black', linewidth=1.5)
@@ -82,23 +94,29 @@ for median in bpl['medians']:
 for patch in bpl['boxes']:
     patch.set_facecolor(LBLUE)
 
-s.yaxis.grid(True)
-s.xaxis.get_label().set_fontsize(20)
-s.yaxis.get_label().set_fontsize(20)
+ax1.yaxis.grid(True)
+ax2.yaxis.grid(True)
 
-temp_ticks = []
-for i in s.get_yticks():
-    temp_ticks.append(int(i))
-s.set_yticklabels(temp_ticks)
+y_ticks = np.arange(ybreak_end, ymax, yscale)
+ax1.set_yticks(y_ticks)
+ax1.set_yticklabels(y_ticks)
+y_ticks = np.arange(ymin, ybreak_start, yscale2)
+ax2.set_yticks(y_ticks)
+ax2.set_yticklabels(y_ticks)
 
-for tick in s.xaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
-for tick in s.yaxis.get_major_ticks():
-    tick.label1.set_fontsize(20)
+ax2.set_xticklabels(frameworks)
+ax2.set_xlabel('Platforms')
+plt.gcf().text(0, 0.25, 'Invocation Overhead (ms)', rotation='vertical')
 
-s.set_xticklabels(frameworks)
-plt.xlabel('Platforms')
-plt.ylabel('Invocation Overhead (ms)')
+d = .015  # how big to make the diagonal lines in axes coordinates
+# arguments to pass to plot, just so we don't keep repeating them
+kwargs = dict(transform=ax1.transAxes, color='k', clip_on=False)
+ax1.plot((-d, +d), (-d, +d), **kwargs)        # top-left diagonal
+ax1.plot((1 - d, 1 + d), (-d, +d), **kwargs)  # top-right diagonal
+
+kwargs.update(transform=ax2.transAxes)  # switch to the bottom axes
+ax2.plot((-d, +d), (1 - d, 1 + d), **kwargs)  # bottom-left diagonal
+ax2.plot((1 - d, 1 + d), (1 - d, 1 + d), **kwargs)  # bottom-right diagonal
 
 plt.tight_layout()
 
