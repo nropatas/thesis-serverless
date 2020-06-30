@@ -16,9 +16,9 @@ const TESTS = [
   'IncreasingCPULoadLvl1',
   'IncreasingCPULoadLvl2',
   'IncreasingCPULoadLvl3',
-  'IncreasingMemLoadLvl1',
-  'IncreasingMemLoadLvl2',
-  'IncreasingMemLoadLvl3',
+  'IncreasingCPULoadLvl1-CPU500',
+  'IncreasingCPULoadLvl2-CPU500',
+  'IncreasingCPULoadLvl3-CPU500',
 ];
 
 const PROVIDERS = [
@@ -31,7 +31,7 @@ const PROVIDERS = [
 ];
 
 const OUTPUT_DIR = 'outputs';
-const NUM_ITERS = 1 // TODO (Sam): Set back to 10
+const NUM_ITERS = 10
 
 function getMemory(provider, f) {
   if (provider == 'azure') {
